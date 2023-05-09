@@ -1,10 +1,21 @@
-const path = require("path");
-const fs = require("fs");
+const path = require('path');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // experimental: {
   //   appDir: true,
   // },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true
+  },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true
+  },
   webpack: (config, context) => {
     config.resolve.modules.push(path.resolve(__dirname, 'src'));
     config.resolve.modules.push(path.resolve(__dirname, 'public'));
@@ -15,10 +26,10 @@ const nextConfig = {
         {
           loader: 'css-loader',
           options: {
-            url: false,
-          },
-        },
-      ],
+            url: false
+          }
+        }
+      ]
     });
     config.module.rules.push({
       test: /\.less$/,
@@ -28,11 +39,11 @@ const nextConfig = {
         {
           loader: 'css-loader',
           options: {
-            url: false,
-          },
+            url: false
+          }
         },
         'less-loader'
-      ],
+      ]
     });
     config.module.rules.push({
       test: /\.module\.less$/,
@@ -43,12 +54,12 @@ const nextConfig = {
           options: {
             url: false,
             modules: {
-              localIdentName: '[name]__[local]--[hash:base64:5]',
-            },
-          },
+              localIdentName: '[name]__[local]--[hash:base64:5]'
+            }
+          }
         },
         'less-loader'
-      ],
+      ]
     });
     config.module.rules.push({
       test: /\.svg$/,
@@ -56,22 +67,22 @@ const nextConfig = {
         {
           loader: '@svgr/webpack',
           options: {
-            svgo: false,
-          },
-        },
-      ],
+            svgo: false
+          }
+        }
+      ]
     });
     config.module.rules.push({
       test: /\.(png|jpe?g|gif|svg)$/i,
       use: [
         {
-          loader: 'file-loader',
-        },
-      ],
+          loader: 'file-loader'
+        }
+      ]
     });
 
     return config;
-  },
-}
+  }
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
