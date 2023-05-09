@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { ProCard } from '@ant-design/pro-components';
-import { Collapse } from 'antd';
+import { Collapse, Button } from 'antd';
+import { addContext, ConversationHistory, getWorkingExperience } from '../../api/api';
 
 const { Panel } = Collapse;
 
@@ -10,6 +12,28 @@ const text = `
 `;
 
 export default function BuilderPage() {
+  const [workingExperienceHistory, setWorkingExperienceHistory] = useState<ConversationHistory>([]);
+
+  const handleWorkingExperience = async () => {
+    const experience = await getWorkingExperience(
+      workingExperienceHistory,
+      'Senior Software Engineer',
+      'EPAM',
+      '2021-now',
+      'React, Next.js, Node.js'
+    );
+    setWorkingExperienceHistory((prevState) => {
+      return [...prevState, { role: 'assistant', content: experience ?? '' }];
+    });
+  };
+
+  const handleImproveWorkingExperience = async () => {
+    const experience = await addContext(workingExperienceHistory, 'Add to my experience that I worked at MacDonalds');
+    setWorkingExperienceHistory((prevState) => {
+      return [...prevState, { role: 'assistant', content: experience ?? '' }];
+    });
+  };
+
   return (
     <div>
       <h1>Builder Page</h1>
@@ -17,7 +41,12 @@ export default function BuilderPage() {
         <ProCard colSpan={12} layout="center">
           <Collapse defaultActiveKey={['1']}>
             <Panel header="This is panel header 1" key="1">
-              <p>{text}</p>
+              <Button type="primary" size="large" onClick={handleWorkingExperience}>
+                Get working experience
+              </Button>
+              <Button type="primary" size="large" onClick={handleImproveWorkingExperience}>
+                Improve it
+              </Button>
             </Panel>
             <Panel header="This is panel header 2" key="2">
               <p>{text}</p>
@@ -28,7 +57,17 @@ export default function BuilderPage() {
           </Collapse>
         </ProCard>
         <ProCard colSpan={12} layout="center">
-          colSpan-6
+          <div>
+            <h2>Working Experience:</h2>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: workingExperienceHistory[workingExperienceHistory.length - 1]?.content
+                  .split('\n\n')
+                  .map((paragraph) => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
+                  .join('')
+              }}
+            />
+          </div>
         </ProCard>
       </ProCard>
     </div>
