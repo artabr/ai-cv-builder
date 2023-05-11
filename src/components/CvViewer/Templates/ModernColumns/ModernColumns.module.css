@@ -1,0 +1,38 @@
+.mainBlock {
+  display: grid;
+  grid-template-columns: 200px 1fr 120px;
+}
+
+.mainContent,
+.social {
+  padding: 20px;
+}
+
+.personalInfo {
+  background: #bab86c;
+  padding: 20px;
+}
+
+.personalInfoBlack {
+  background: #007500;
+  padding: 20px;
+}
+
+.goldBackground {
+  background-image: radial-gradient(circle farthest-side, #fceabb, #f8b500);
+}
+
+.lawrenciumBackground {
+  background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+}
+
+.black {
+  background: black;
+}
+
+.black p,
+.black h2,
+.black h3,
+.black h5 {
+  color: white;
+}

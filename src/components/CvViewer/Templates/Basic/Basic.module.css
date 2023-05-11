@@ -25,3 +25,7 @@
   padding: 20px;
   grid-area: leftBlock;
 }
+
+.title {
+  padding: 20px;
+}

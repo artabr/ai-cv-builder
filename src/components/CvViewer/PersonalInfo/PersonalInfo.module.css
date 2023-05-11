@@ -2,3 +2,9 @@
   padding: 20px;
   text-align: left;
 }
+
+.inlineWrapper {
+  display: -webkit-inline-box;
+  gap: 12px;
+  flex-flow: wrap;
+}

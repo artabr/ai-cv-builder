@@ -1,0 +1,20 @@
+.mainBlock {
+  display: grid;
+  grid-template-columns: 1fr 60px;
+  padding: 20px;
+}
+
+.personalInfo {
+  padding: 20px;
+}
+
+.black {
+  background: black;
+}
+
+.black p,
+.black h2,
+.black h3,
+.black h5 {
+  color: white;
+}
