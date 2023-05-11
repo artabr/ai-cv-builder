@@ -1,6 +1,8 @@
 import React, { createContext, useState, useContext, useMemo } from 'react';
+import merge from 'lodash/merge';
 import { ResumeViewerType } from '../components/CvViewer/CvViewer.types';
-import { CvData } from '../components/CvViewer/CvViewer.stub';
+import { cvDataMock } from '../components/CvViewer/CvViewer.stub';
+import { useResumeFormContext } from './ResumeFormContext';
 
 type AuthContextType = {
   cvData: ResumeViewerType;
@@ -14,7 +16,67 @@ export const CvContext = createContext<AuthContextType>({
 });
 
 export const CvContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cvData, setCvData] = useState<ResumeViewerType>(CvData);
+  const {
+    introSectionFormData,
+    workSectionFormData,
+    educationSectionFormData,
+    skillsSectionFormData,
+    introResultFromAI,
+    workResultFromAI,
+    educationResultFromAI,
+    skillsResultFromAI
+  } = useResumeFormContext();
+  const cvDataFromWizard: ResumeViewerType = {
+    personalInfo: {
+      fullName: introSectionFormData.name,
+      description: introResultFromAI
+    },
+    workExperience: [
+      {
+        companyName: workSectionFormData.employer ?? '',
+        position: workSectionFormData.employer ?? '',
+        // TODO: remove address
+        adress: '',
+        isCurrentWork: false,
+        startDate: 0,
+        endDate: 0,
+        description: workResultFromAI
+      }
+    ],
+    education: [
+      {
+        universityName: educationSectionFormData.institution ?? '',
+        speciality: educationSectionFormData.institution ?? '',
+        startDate: 0,
+        endDate: 0,
+        description: educationResultFromAI,
+        isCurrentEducation: false
+      }
+    ],
+    skills: skillsSectionFormData.skills?.map((item) => {
+      return {
+        name: item ?? '',
+        // TODO: remove level
+        level: 0
+      };
+    }),
+    hobbies: skillsSectionFormData.hobbies?.map((item) => {
+      return {
+        name: item ?? '',
+        // TODO: remove icon
+        icon: ''
+      };
+    }),
+    additionalBlocks: [
+      {
+        title: 'More info about me',
+        description: skillsResultFromAI
+      }
+    ]
+  };
+  const defaultCvData = merge(cvDataMock, cvDataFromWizard);
+
+  const [cvData, setCvData] = useState<ResumeViewerType>(defaultCvData);
 
   const value = useMemo(() => {
     return {

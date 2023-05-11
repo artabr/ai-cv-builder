@@ -1,6 +1,6 @@
+import cx from 'classnames';
 import { getDateFromTimeStampInDay } from '../formatters/date.formatters';
 import css from './PersonalInfo.module.css';
-import cx from 'classnames';
 
 type PersonalInfoProps = {
   birthDate?: number;

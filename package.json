@@ -10,17 +10,18 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint --cache --fix ./src",
-    "prepare": "husky install",
-    "prettier": "prettier --write src",
-    "f": "npm run prettier"
+    "prepare": "husky install"
   },
   "dependencies": {
     "@ant-design/icons": "^5.0.1",
     "@ant-design/pro-components": "^2.4.14",
     "antd": "^5.4.7",
+    "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "dayjs": "^1.11.7",
+    "lodash": "^4.17.21",
     "next": "^13.4.1",
+    "openai": "^3.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "typescript-plugin-css-modules": "^5.0.1"
@@ -30,6 +31,7 @@
     "@commitlint/config-conventional": "^17.0.3",
     "@commitlint/prompt-cli": "^17.0.3",
     "@svgr/webpack": "^8.0.1",
+    "@types/lodash": "^4.14.194",
     "@types/node": "^20.1.0",
     "@types/react": "^18.2.6",
     "@types/react-dom": "^18.2.4",

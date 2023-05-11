@@ -9,45 +9,73 @@ import {
 } from '@ant-design/pro-components';
 import { message } from 'antd';
 import { useRef } from 'react';
-import { useResumeFormContext } from '../../context/ResumeFormContext';
-
-const waitTime = (time = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
+import { useRouter } from 'next/router';
+import {
+  EducationSectionResumeFormData,
+  IntroSectionResumeFormData,
+  SkillsSectionResumeFormData,
+  useResumeFormContext,
+  WorkSectionResumeFormData
+} from '../../context/ResumeFormContext';
+import { fetchSectionFromAPI } from '../../api/client/wizard';
 
 export default function WizardPage() {
   const formRef = useRef<ProFormInstance>();
+  const router = useRouter();
 
-  const { setResumeFormData } = useResumeFormContext();
+  const {
+    setIntroSectionFormData,
+    setWorkSectionFormData,
+    setEducationSectionFormData,
+    setSkillsSectionFormData,
+    setIntroResultFromAI,
+    setWorkResultFromAI,
+    setEducationResultFromAI,
+    setSkillsResultFromAI
+  } = useResumeFormContext();
+
+  const handleIntroStep = async (values: IntroSectionResumeFormData) => {
+    setIntroSectionFormData(values);
+    const introSection = await fetchSectionFromAPI(values, 'intro');
+    setIntroResultFromAI(introSection);
+    return true;
+  };
+
+  const handleWorkStep = async (values: WorkSectionResumeFormData) => {
+    setWorkSectionFormData(values);
+    const workSection = await fetchSectionFromAPI(values, 'work');
+    setWorkResultFromAI(workSection);
+    return true;
+  };
+
+  const handleEducationStep = async (values: EducationSectionResumeFormData) => {
+    setEducationSectionFormData(values);
+    const educationSection = await fetchSectionFromAPI(values, 'education');
+    setEducationResultFromAI(educationSection);
+    return true;
+  };
+
+  const handleSkillsStep = async (values: SkillsSectionResumeFormData) => {
+    setSkillsSectionFormData(values);
+    const skillsSection = await fetchSectionFromAPI(values, 'skills');
+    setSkillsResultFromAI(skillsSection);
+    return true;
+  };
 
   return (
     <ProCard>
-      <StepsForm<{
-        name: string;
-      }>
+      <StepsForm
         formRef={formRef}
         onFinish={async (values) => {
-          await waitTime(1000);
-          setResumeFormData(values);
           message.success('Success!');
-        }}
-        formProps={{
-          validateMessages: {
-            required: 'This field is required'
-          }
+          router.push('/builder');
         }}
       >
-        <StepsForm.StepForm<{
-          name: string;
-        }>
-          name="base"
+        <StepsForm.StepForm<IntroSectionResumeFormData>
+          name="intro"
           title="Introduce yourself"
-          onFinish={async () => {
-            await waitTime(2000);
+          onFinish={async (values) => {
+            await handleIntroStep(values);
             return true;
           }}
         >
@@ -55,12 +83,11 @@ export default function WizardPage() {
           <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
           <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
         </StepsForm.StepForm>
-        <StepsForm.StepForm<{
-          checkbox: string;
-        }>
-          name="checkbox"
+        <StepsForm.StepForm<WorkSectionResumeFormData>
+          name="work"
           title="Work experience"
-          onFinish={async () => {
+          onFinish={async (values) => {
+            await handleWorkStep(values);
             return true;
           }}
         >
@@ -74,7 +101,32 @@ export default function WizardPage() {
             placeholder="In short phrases tell us about what you did there"
           />
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="time" title="Skills and expertise">
+        <StepsForm.StepForm<EducationSectionResumeFormData>
+          name="education"
+          title="Education"
+          onFinish={async (values) => {
+            await handleEducationStep(values);
+            return true;
+          }}
+        >
+          <ProFormText name="institution" label="Where did you study" width="md" placeholder="MIT" />
+          <ProFormText name="field" label="Field of study" width="md" placeholder="Computer Science" />
+          <ProFormDateRangePicker name="studyDateTime" label="Period of education" />
+          <ProFormTextArea
+            name="studyRemark"
+            label="Key points about your education"
+            width="lg"
+            placeholder="In short phrases tell us about what you did there"
+          />
+        </StepsForm.StepForm>
+        <StepsForm.StepForm<SkillsSectionResumeFormData>
+          name="time"
+          title="Skills and expertise"
+          onFinish={async (values) => {
+            await handleSkillsStep(values);
+            return true;
+          }}
+        >
           <ProFormSelect mode="tags" name="skills" label="Your key skills" placeholder="React, TypeScript" />
           <ProFormSelect mode="tags" name="hobbies" label="Your hobbies" placeholder="Music, Sports, Traveling" />
         </StepsForm.StepForm>
