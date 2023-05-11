@@ -4,6 +4,7 @@ import Head from 'next/head';
 import 'antd/dist/reset.css';
 import { MainLayout } from '../components';
 import { ResumeFormProvider } from '../context/ResumeFormContext';
+import { CvContextProvider } from '../context/CvContext';
 
 /**
  * This component is used to prevent the server from rendering the page before the client has a chance to render it.
@@ -32,9 +33,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <main>
         <ClientOnly>
           <ResumeFormProvider>
-            <MainLayout>
-              <Component {...pageProps} />
-            </MainLayout>
+            <CvContextProvider>
+              <MainLayout>
+                <Component {...pageProps} />
+              </MainLayout>
+            </CvContextProvider>
           </ResumeFormProvider>
         </ClientOnly>
       </main>

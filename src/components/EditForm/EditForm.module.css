@@ -1,0 +1,6 @@
+.workExperienceBox {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid aquamarine;
+  align-items: center;
+}

@@ -3,6 +3,9 @@ import { ProCard } from '@ant-design/pro-components';
 import { Collapse, Button } from 'antd';
 import { addContext, ConversationHistory, getWorkingExperience } from '../../api/api';
 import { useResumeFormContext } from '../../context/ResumeFormContext';
+import { EditForm } from '../../components/EditForm/EditForm';
+import { CvViewer } from '../../components/CvViewer/CvViewer';
+import { useCvContext } from '../../context/CvContext';
 
 const { Panel } = Collapse;
 
@@ -13,6 +16,7 @@ const text = `
 `;
 
 export default function BuilderPage() {
+  const { cvData } = useCvContext();
   const [workingExperienceHistory, setWorkingExperienceHistory] = useState<ConversationHistory>([]);
 
   const { resumeFormData } = useResumeFormContext();
@@ -39,41 +43,13 @@ export default function BuilderPage() {
   };
 
   return (
-    <div>
-      <h1>Builder Page</h1>
-      <ProCard gutter={8} style={{ marginBlockStart: 8 }}>
-        <ProCard colSpan={12} layout="center">
-          <Collapse defaultActiveKey={['1']}>
-            <Panel header="This is panel header 1" key="1">
-              <Button type="primary" size="large" onClick={handleWorkingExperience}>
-                Get working experience
-              </Button>
-              <Button type="primary" size="large" onClick={handleImproveWorkingExperience}>
-                Improve it
-              </Button>
-            </Panel>
-            <Panel header="This is panel header 2" key="2">
-              <p>{text}</p>
-            </Panel>
-            <Panel header="This is panel header 3" key="3">
-              <p>{text}</p>
-            </Panel>
-          </Collapse>
-        </ProCard>
-        <ProCard colSpan={12} layout="center">
-          <div>
-            <h2>Working Experience:</h2>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: workingExperienceHistory[workingExperienceHistory.length - 1]?.content
-                  .split('\n\n')
-                  .map((paragraph) => `<p>${paragraph.replace(/\n/g, '<br>')}</p>`)
-                  .join('')
-              }}
-            />
-          </div>
-        </ProCard>
-      </ProCard>
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1200px' }}>
+      <div style={{ border: '1px solid red', width: '100%', height: '100%' }}>
+        <EditForm />
+      </div>
+      <div style={{ border: '1px solid red', width: '100%', height: '100%' }}>
+        <CvViewer cv={cvData} />
+      </div>
     </div>
   );
 }
