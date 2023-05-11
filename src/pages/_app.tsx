@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import 'antd/dist/reset.css';
 import { MainLayout } from '../components';
+import { ResumeFormProvider } from '../context/ResumeFormContext';
 
 /**
  * This component is used to prevent the server from rendering the page before the client has a chance to render it.
@@ -30,9 +31,11 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <main>
         <ClientOnly>
-          <MainLayout>
-            <Component {...pageProps} />
-          </MainLayout>
+          <ResumeFormProvider>
+            <MainLayout>
+              <Component {...pageProps} />
+            </MainLayout>
+          </ResumeFormProvider>
         </ClientOnly>
       </main>
     </>

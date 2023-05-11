@@ -9,6 +9,7 @@ import {
 } from '@ant-design/pro-components';
 import { message } from 'antd';
 import { useRef } from 'react';
+import { useResumeFormContext } from '../../context/ResumeFormContext';
 
 const waitTime = (time = 100) => {
   return new Promise((resolve) => {
@@ -21,14 +22,17 @@ const waitTime = (time = 100) => {
 export default function WizardPage() {
   const formRef = useRef<ProFormInstance>();
 
+  const { setResumeFormData } = useResumeFormContext();
+
   return (
     <ProCard>
       <StepsForm<{
         name: string;
       }>
         formRef={formRef}
-        onFinish={async () => {
+        onFinish={async (values) => {
           await waitTime(1000);
+          setResumeFormData(values);
           message.success('Success!');
         }}
         formProps={{

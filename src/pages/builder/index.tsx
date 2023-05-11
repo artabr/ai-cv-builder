@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ProCard } from '@ant-design/pro-components';
 import { Collapse, Button } from 'antd';
 import { addContext, ConversationHistory, getWorkingExperience } from '../../api/api';
+import { useResumeFormContext } from '../../context/ResumeFormContext';
 
 const { Panel } = Collapse;
 
@@ -14,6 +15,9 @@ const text = `
 export default function BuilderPage() {
   const [workingExperienceHistory, setWorkingExperienceHistory] = useState<ConversationHistory>([]);
 
+  const { resumeFormData } = useResumeFormContext();
+
+  console.log({ resumeFormData });
   const handleWorkingExperience = async () => {
     const experience = await getWorkingExperience(
       workingExperienceHistory,
