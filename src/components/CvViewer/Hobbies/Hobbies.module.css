@@ -1,0 +1,15 @@
+.ItemWrapper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.title {
+  min-width: 100px;
+  text-align: left;
+  margin: 12px;
+}
+
+.img {
+  width: 40px;
+  height: auto;
+}

@@ -34,6 +34,8 @@ module.exports = {
     'react/jsx-no-useless-fragment': 'warn',
     'react/jsx-props-no-spreading': 'off',
     'react/destructuring-assignment': 'off',
-    'react/function-component-definition': 'off'
+    'react/function-component-definition': 'off',
+    'react/require-default-props': 'off',
+    'jsx-a11y/alt-text': 'off'
   }
 };

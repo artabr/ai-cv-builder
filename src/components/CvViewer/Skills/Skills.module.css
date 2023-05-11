@@ -1,0 +1,9 @@
+.ItemWrapper {
+  display: flex;
+  align-items: center;
+}
+.title {
+  min-width: 100px;
+  text-align: left;
+  margin: 0;
+}

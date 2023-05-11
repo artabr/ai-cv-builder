@@ -1,0 +1,27 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 300px);
+  grid-template-areas: 'leftBlock leftBlock leftBlock rightColumn';
+}
+
+.wrapperReverse {
+  display: grid;
+  grid-template-columns: repeat(4, 300px);
+  grid-template-areas: 'rightColumn leftBlock leftBlock leftBlock';
+}
+
+.avatar {
+  width: 260px;
+  height: auto;
+  padding: 20px;
+}
+
+.rightColumn {
+  background-color: aquamarine;
+  grid-area: rightColumn;
+}
+
+.leftBlock {
+  padding: 20px;
+  grid-area: leftBlock;
+}
