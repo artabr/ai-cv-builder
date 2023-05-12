@@ -20,7 +20,7 @@ export type OpenAIResponse = {
   };
 };
 
-export type ConversationHistory = { role: 'user' | 'assistant' | 'system'; content: string }[] | null | undefined;
+export type ConversationHistory = Array<{ role: 'user' | 'assistant' | 'system'; content: string }> | null | undefined;
 
 export const callOpenAI = async (
   messages: ConversationHistory,
