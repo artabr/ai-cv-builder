@@ -18,6 +18,9 @@ import './builder.less';
 
 const { Panel } = Collapse;
 
+const dontDoTemplate =
+  'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
+
 export default function BuilderPage() {
   const { cvData, setCvData } = useCvContext();
   const {
