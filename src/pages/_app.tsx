@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import 'antd/dist/reset.css';
+import enUs from 'antd/locale/en_US';
+import { ConfigProvider } from 'antd';
 import { MainLayout } from '../components';
 import { ResumeFormProvider } from '../context/ResumeFormContext';
 import { CvContextProvider } from '../context/CvContext';
@@ -32,13 +34,15 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <main>
         <ClientOnly>
-          <ResumeFormProvider>
-            <CvContextProvider>
-              <MainLayout>
-                <Component {...pageProps} />
-              </MainLayout>
-            </CvContextProvider>
-          </ResumeFormProvider>
+          <ConfigProvider locale={enUs}>
+            <ResumeFormProvider>
+              <CvContextProvider>
+                <MainLayout>
+                  <Component {...pageProps} />
+                </MainLayout>
+              </CvContextProvider>
+            </ResumeFormProvider>
+          </ConfigProvider>
         </ClientOnly>
       </main>
     </>
