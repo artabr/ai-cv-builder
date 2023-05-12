@@ -10,7 +10,7 @@ import { Social } from '../../Social/Social';
 
 type CvViewerProps = {
   cv: ResumeViewerType;
-  isReverse: boolean;
+  isReverse?: boolean;
 };
 export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
   const { personalInfo, workExperience, education, skills, hobbies, additionalBlocks } = cv;
@@ -42,10 +42,10 @@ export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
         ))}
       </div>
       <div className={css.rightColumn}>
-        <h2>{personalInfo.fullName}</h2>
+        <h2 className={css.title}>{personalInfo.fullName}</h2>
         <Avatar avatar={personalInfo.avatar} isShowAvatar={personalInfo.isShowAvatar} className={css.avatar} />
         <PersonalInfo {...personalInfo} />
-        <Social {...personalInfo.social} />
+        <Social {...personalInfo.social} isShowTitle={false} />
       </div>
     </div>
   );

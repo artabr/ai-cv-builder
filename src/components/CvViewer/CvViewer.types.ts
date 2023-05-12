@@ -2,7 +2,10 @@
 export enum Template {
   Basic = 'basic',
   BasicReverse = 'basic reverse',
-  Modern = 'modern'
+  Modern = 'modern',
+  ModernBlack = 'modern black',
+  ModernColumns = 'modern columns',
+  ModernColumnBlack = 'modern column black'
 }
 
 export type ResumeViewerType = {

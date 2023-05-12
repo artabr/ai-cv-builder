@@ -1,5 +1,6 @@
 import { getDateFromTimeStampInDay } from '../formatters/date.formatters';
 import css from './PersonalInfo.module.css';
+import cx from 'classnames';
 
 type PersonalInfoProps = {
   birthDate?: number;
@@ -8,6 +9,8 @@ type PersonalInfoProps = {
   address?: string;
   englishLevel?: string;
   salaryExpectation?: string;
+  isInline?: boolean;
+  className?: string;
 };
 export const PersonalInfo = ({
   birthDate,
@@ -15,10 +18,12 @@ export const PersonalInfo = ({
   phone,
   address,
   englishLevel,
-  salaryExpectation
+  salaryExpectation,
+  isInline = false,
+  className
 }: PersonalInfoProps) => {
   return (
-    <div className={css.wrapper}>
+    <div className={cx(isInline ? css.inlineWrapper : css.wrapper, className)}>
       {birthDate && (
         <p>
           <b>Birth date: </b> {getDateFromTimeStampInDay(birthDate)}

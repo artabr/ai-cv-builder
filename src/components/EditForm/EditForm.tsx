@@ -52,7 +52,17 @@ export const EditForm = () => {
       <Item label="Theme">
         <Select
           placeholder="Choose theme"
-          options={[Template.Basic, Template.BasicReverse, Template.Modern].map((el) => ({ text: el, value: el }))}
+          options={[
+            Template.Basic,
+            Template.BasicReverse,
+            Template.Modern,
+            Template.ModernBlack,
+            Template.ModernColumns,
+            Template.ModernColumnBlack
+          ].map((el) => ({
+            text: el,
+            value: el
+          }))}
           onChange={(value) => setCvData({ ...cvData, template: value })}
           value={cvData.template}
         />
