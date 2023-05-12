@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   ProCard,
   ProFormDateRangePicker,
@@ -14,12 +15,15 @@ import { useCvContext } from '../../context/CvContext';
 import { Paper } from '../../components/Paper';
 import { useResumeFormContext } from '../../context/ResumeFormContext';
 import { Template } from '../../components/CvViewer/CvViewer.types';
+import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 
 const { Panel } = Collapse;
 
 const dontDoTemplate =
   'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
+
+type AIResumeTypes = 'workExperience';
 
 export default function BuilderPage() {
   const { cvData, setCvData } = useCvContext();
@@ -29,6 +33,10 @@ export default function BuilderPage() {
     workSectionFormData: { employer, position, dateTime, remark },
     educationSectionFormData: { institution, field, studyDateTime, studyRemark }
   } = useResumeFormContext();
+  const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
+    workExperience: [{ role: 'assistant', content: cvData.workExperience?.[0].description ?? '' }]
+  });
+  const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
     Template.Basic,
     Template.BasicReverse,
@@ -40,6 +48,32 @@ export default function BuilderPage() {
     text: el,
     value: el
   }));
+
+  const addNewContextToAI = async (newRequest: string, context: AIResumeTypes) => {
+    const newRequestWithTemplate = `${dontDoTemplate}, and ${newRequest}`;
+    setIsWriting(true);
+    const answer = await addContext(messagesHistory?.[context], newRequestWithTemplate);
+    setIsWriting(false);
+    setMessagesHistory((prevState) => {
+      return {
+        ...prevState,
+        workExperience: [
+          ...(prevState?.workExperience ? prevState.workExperience : []),
+          { role: 'user', content: newRequestWithTemplate },
+          { role: 'assistant', content: answer ?? '' }
+        ]
+      };
+    });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setCvData({ ...cvData, [context]: [{ ...cvData[context][0], description: answer }] || [] });
+  };
+
+  const handleChange = async (value: string, context: AIResumeTypes = 'workExperience') => {
+    setIsWriting(true);
+    await addNewContextToAI(value, context);
+    setIsWriting(false);
+  };
 
   return (
     <div>
@@ -102,6 +136,17 @@ export default function BuilderPage() {
                   </ProFormGroup>
                 </ProFormList>
               </ProForm>
+              <Select
+                placeholder="Customize your experience"
+                style={{ width: 200 }}
+                onChange={(value) => handleChange(value, 'workExperience')}
+                options={[
+                  { value: 'add more details', label: 'Add more details', disabled: isWriting },
+                  { value: 'add less details', label: 'Add less details', disabled: isWriting },
+                  { value: 'make more fun', label: 'Make more fun', disabled: isWriting },
+                  { value: 'make more serious', label: 'Make more serious', disabled: isWriting }
+                ]}
+              />
             </Panel>
             <Panel header="Education" key="3">
               <ProForm
