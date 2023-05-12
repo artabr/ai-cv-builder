@@ -23,7 +23,7 @@ const { Panel } = Collapse;
 const dontDoTemplate =
   'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
 
-type AIResumeTypes = 'workExperience';
+type AIResumeTypes = 'workExperience' | 'education';
 
 export default function BuilderPage() {
   const { cvData, setCvData } = useCvContext();
@@ -34,7 +34,8 @@ export default function BuilderPage() {
     educationSectionFormData: { institution, field, studyDateTime, studyRemark }
   } = useResumeFormContext();
   const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
-    workExperience: [{ role: 'assistant', content: cvData.workExperience?.[0].description ?? '' }]
+    workExperience: [{ role: 'assistant', content: cvData.workExperience?.[0].description ?? '' }],
+    education: [{ role: 'assistant', content: cvData.education?.[0].description ?? '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -48,17 +49,26 @@ export default function BuilderPage() {
     text: el,
     value: el
   }));
+  const selectOptions = [
+    { value: 'add more details', label: 'Add more details', disabled: isWriting },
+    { value: 'add less details', label: 'Add less details', disabled: isWriting },
+    { value: 'make more fun', label: 'Make more fun', disabled: isWriting },
+    { value: 'make more serious', label: 'Make more serious', disabled: isWriting }
+  ];
 
   const addNewContextToAI = async (newRequest: string, context: AIResumeTypes) => {
     const newRequestWithTemplate = `${dontDoTemplate}, and ${newRequest}`;
     setIsWriting(true);
     const answer = await addContext(messagesHistory?.[context], newRequestWithTemplate);
     setIsWriting(false);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     setMessagesHistory((prevState) => {
+      const prevContext = Array.isArray(prevState?.[context]) ? prevState?.[context] : [];
       return {
         ...prevState,
-        workExperience: [
-          ...(prevState?.workExperience ? prevState.workExperience : []),
+        [context]: [
+          ...(prevContext as Array<{ role: 'user' | 'assistant' | 'system'; content: string }>),
           { role: 'user', content: newRequestWithTemplate },
           { role: 'assistant', content: answer ?? '' }
         ]
@@ -138,14 +148,9 @@ export default function BuilderPage() {
               </ProForm>
               <Select
                 placeholder="Customize your experience"
-                style={{ width: 200 }}
+                style={{ width: 200, marginTop: 20 }}
                 onChange={(value) => handleChange(value, 'workExperience')}
-                options={[
-                  { value: 'add more details', label: 'Add more details', disabled: isWriting },
-                  { value: 'add less details', label: 'Add less details', disabled: isWriting },
-                  { value: 'make more fun', label: 'Make more fun', disabled: isWriting },
-                  { value: 'make more serious', label: 'Make more serious', disabled: isWriting }
-                ]}
+                options={selectOptions}
               />
             </Panel>
             <Panel header="Education" key="3">
