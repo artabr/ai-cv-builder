@@ -1,4 +1,4 @@
-import { ResumeFormData } from '../context/ResumeFormContext';
+import { IntroSectionResumeFormData } from '../context/ResumeFormContext';
 
 export type OpenAIResponse = {
   id: string;
@@ -58,17 +58,14 @@ export const addContext = async (history: ConversationHistory, text: string): Pr
   return undefined;
 };
 
-export const getGeneratedDescription = async (history: ConversationHistory, resumeFormData: ResumeFormData) => {
+export const getGeneratedDescription = async (
+  history: ConversationHistory,
+  introSectionFormData: IntroSectionResumeFormData
+) => {
   const TEMPLATE = `I need a professional and concise description for a CV with the following data:
-    Name: ${resumeFormData.name},
-    Country: ${resumeFormData.country},
-    Last Employer: ${resumeFormData.employer},
-    Job Position: ${resumeFormData.position},
-    Job: ${resumeFormData.job},
-    Period of working in that company: ${resumeFormData?.dateTime?.join(' - ')},
-    Hobbies: ${resumeFormData?.hobbies?.join(',')},
-    Key points about that job: ${resumeFormData.remark},
-    Skills: ${resumeFormData?.skills?.join(',')},
+    Name: ${introSectionFormData.name},
+    Country: ${introSectionFormData.country},
+    Job: ${introSectionFormData.job},
 
     Please provide a summary of these qualifications and experience, emphasizing the candidate's strengths and accomplishments.
     Write from the first person perspective, as if you were the candidate.
