@@ -31,8 +31,8 @@ export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
               key={el.companyName}
               title={el.companyName}
               subtitle={el.position}
-              startDate={el.startDate}
-              endDate={el.endDate}
+              startDate={el.dateTime?.[0]}
+              endDate={el.dateTime?.[1]}
               description={el.description}
             />
           ))}
@@ -42,8 +42,8 @@ export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
               key={el.universityName}
               title={el.universityName}
               subtitle={el.speciality}
-              startDate={el.startDate}
-              endDate={el.endDate}
+              startDate={el.dateTime?.[0]}
+              endDate={el.dateTime?.[1]}
               description={el.description}
             />
           ))}
