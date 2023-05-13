@@ -29,7 +29,8 @@ export const CvContextProvider = ({ children }: { children: React.ReactNode }) =
   const cvDataFromWizard: ResumeViewerType = {
     personalInfo: {
       fullName: introSectionFormData.name,
-      description: introResultFromAI
+      description: introResultFromAI,
+      address: introSectionFormData.country
     },
     workExperience: [
       {
@@ -53,8 +54,8 @@ export const CvContextProvider = ({ children }: { children: React.ReactNode }) =
         isCurrentEducation: false
       }
     ],
-    skills: skillsSectionFormData.skills?.map((item) => item),
-    hobbies: skillsSectionFormData.hobbies?.map((item) => item),
+    skills: skillsSectionFormData.skills,
+    hobbies: skillsSectionFormData.hobbies,
     additionalBlocks: [
       {
         title: 'More info about me',
