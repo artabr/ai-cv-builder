@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useMemo } from 'react';
 import merge from 'lodash/merge';
-import { ResumeViewerType} from '../components/CvViewer/CvViewer.types';
+import { ResumeViewerType } from '../components/CvViewer/CvViewer.types';
 import { cvDataMock } from '../components/CvViewer/CvViewer.stub';
 import { useResumeFormContext } from './ResumeFormContext';
 
