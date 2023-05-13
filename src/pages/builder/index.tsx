@@ -18,6 +18,7 @@ import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
 import { useAppSelector } from '../../hooks/redux';
+import { SkillsForm } from '../../components/SkillsForm';
 
 const { Panel } = Collapse;
 
@@ -134,8 +135,6 @@ export default function BuilderPage() {
                 fullName={cvDataFromRedux.personalInfo.fullName}
                 address={cvDataFromRedux.personalInfo.address}
                 jobTitle={cvDataFromRedux.personalInfo.jobTitle}
-                skills={cvDataFromRedux.skills}
-                hobbies={cvDataFromRedux.hobbies}
               />
             </Panel>
             <Panel header="Work experience" key="2">
@@ -210,6 +209,9 @@ export default function BuilderPage() {
                   </ProFormGroup>
                 </ProFormList>
               </ProForm>
+            </Panel>
+            <Panel header="Skills and hobbies" key="4">
+              <SkillsForm skills={cvDataFromRedux.skills} hobbies={cvDataFromRedux.hobbies} />
             </Panel>
           </Collapse>
         </ProCard>

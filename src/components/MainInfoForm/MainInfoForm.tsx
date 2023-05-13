@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
+import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { Button, Space } from 'antd';
 import { useAppDispatch } from '../../hooks/redux';
 import { setFullName } from '../../features/cv/cvSlice';
@@ -7,6 +7,7 @@ import { Button, Select, Space } from 'antd';
 
 export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 import { setFullName, setJob, setAddress, setSkills, setHobbies } from '../../features/cv/cvSlice';
+import { setFullName, setJob, setAddress } from '../../features/cv/cvSlice';
 
 type MainInfoFormProps = {
   jobTitle?: string;
@@ -20,7 +21,6 @@ type MainInfoFormProps = {
 
 export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
   const [infoEdited, setInfoEdited] = useState(false);
-  const [skillsEdited, setSkillsEdited] = useState(false);
   const dispatch = useAppDispatch();
 
   return (
@@ -38,14 +38,6 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
             dispatch(setAddress(changeValues.country));
             setInfoEdited(true);
             break;
-          case 'skills' in changeValues:
-            dispatch(setSkills(changeValues.skills));
-            setSkillsEdited(true);
-            break;
-          case 'hobbies' in changeValues:
-            dispatch(setHobbies(changeValues.hobbies));
-            setSkillsEdited(true);
-            break;
           default:
             break;
         }
@@ -53,9 +45,7 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
       initialValues={{
         name: props.fullName,
         job: props.jobTitle,
-        country: props.address,
-        skills: props.skills?.map((item) => ({ value: item })),
-        hobbies: props.hobbies?.map((item) => ({ value: item }))
+        country: props.address
       }}
       submitter={{
         resetButtonProps: {
@@ -79,12 +69,7 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
       <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
       <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
       <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
-      <ProFormSelect mode="tags" name="skills" label="Your key skills" placeholder="React, TypeScript" />
-      <ProFormSelect mode="tags" name="hobbies" label="Your hobbies" placeholder="Music, Sports, Traveling" />
-      <Space wrap>
-        {infoEdited && <Button type="primary">Regenerate description</Button>}
-        {skillsEdited && <Button type="primary">Regerate skills info</Button>}
-      </Space>
+      <Space wrap>{infoEdited && <Button type="primary">Regenerate description</Button>}</Space>
     </ProForm>
   );
 };
