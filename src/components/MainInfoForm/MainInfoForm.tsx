@@ -6,12 +6,9 @@ import { setFullName } from '../../features/cv/cvSlice';
 import { Button, Select, Space } from 'antd';
 
 export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
+import { setFullName, setJob, setAddress, setSkills, setHobbies } from '../../features/cv/cvSlice';
 
 type MainInfoFormProps = {
-  onJobChange?: (job: string) => void;
-  onCountryChange?: (country: string) => void;
-  onSkillsChange?: (skills: string[]) => void;
-  onHobbiesChange?: (hobbies: string[]) => void;
   jobTitle?: string;
   fullName?: string;
   address?: string;
@@ -34,19 +31,19 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
             dispatch(setFullName(changeValues.name));
             break;
           case 'job' in changeValues:
-            props.onJobChange?.(changeValues.job);
+            dispatch(setJob(changeValues.job));
             setInfoEdited(true);
             break;
           case 'country' in changeValues:
-            props.onCountryChange?.(changeValues.country);
+            dispatch(setAddress(changeValues.country));
             setInfoEdited(true);
             break;
           case 'skills' in changeValues:
-            props.onSkillsChange?.(changeValues.skills);
+            dispatch(setSkills(changeValues.skills));
             setSkillsEdited(true);
             break;
           case 'hobbies' in changeValues:
-            props.onHobbiesChange?.(changeValues.hobbies);
+            dispatch(setHobbies(changeValues.hobbies));
             setSkillsEdited(true);
             break;
           default:
