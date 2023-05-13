@@ -62,19 +62,19 @@ export default function AboutPage() {
               avatar="images/Igor_Protsiuk.png"
               name="Igor Protsiuk"
               mail="igor_protsiuk@epam.com"
-              title="FE Developer"
+              title="FE engineer"
             />
             <UserCard
               avatar="images/Viktor_Kyssa.png"
               name="Viktor Kyssa"
               mail="viktor_kyssa@epam.com"
-              title="FE Developer"
+              title="FE engineer"
             />
             <UserCard
               avatar="images/Alisher_Zhangbyrshy.png"
               name="Alisher Zhangbyrshy"
               mail="alisher_zhangbyrshy@epam.com"
-              title="FE Developer"
+              title="FE engineer"
             />
             <UserCard
               avatar="images/Yauheni_Bykau.png"
