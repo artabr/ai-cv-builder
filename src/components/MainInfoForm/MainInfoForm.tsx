@@ -1,23 +1,17 @@
 import React, { FC, useState } from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
-import { Button, Space } from 'antd';
-import { useAppDispatch } from '../../hooks/redux';
-import { setFullName } from '../../features/cv/cvSlice';
 import { Button, Select, Space } from 'antd';
-
-export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
-import { setFullName, setJob, setAddress, setSkills, setHobbies } from '../../features/cv/cvSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setFullName, setJob, setAddress } from '../../features/cv/cvSlice';
 import { IntroSectionResumeFormData } from '../../context/ResumeFormContext';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
 
+export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
+
 type MainInfoFormProps = {
   jobTitle?: string;
   fullName?: string;
   address?: string;
-  skills?: string[];
-  hobbies?: string[];
   handleSelectChange: (value: string, context: AIResumeTypes) => Promise<void>;
   selectOptions: { value: string; label: string }[];
 };

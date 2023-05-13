@@ -18,9 +18,9 @@ export default function AboutPage() {
           <Paragraph>
             Gone are the days of generic resumes that often fail to capture the attention of potential employers. With
             Resumesaurus Rexes, we use cutting-edge algorithms to analyze the job descriptions provided by you and
-            personalize your resume for the specific position you're applying for. The end result is a tailored resume
-            that showcases your most relevant skills and experience – just the information that employers are looking
-            for.
+            personalize your resume for the specific position you&apos;re applying for. The end result is a tailored
+            resume that showcases your most relevant skills and experience – just the information that employers are
+            looking for.
           </Paragraph>
           <Paragraph>
             Our resume builder is designed to be user-friendly and to guide you through every step of the process. Once
@@ -38,8 +38,8 @@ export default function AboutPage() {
           </Paragraph>
           <Paragraph>
             Finally, our team is dedicated to providing exceptional customer support to ensure that you have a positive
-            experience using our platform. Whether you're seeking guidance on resume formatting or simply have a
-            question, we're happy to help. With Resumesaurus Rexes, you won’t just build a resume – you’ll take the
+            experience using our platform. Whether you&apos;re seeking guidance on resume formatting or simply have a
+            question, we&apos;re happy to help. With Resumesaurus Rexes, you won’t just build a resume – you’ll take the
             first step toward landing your dream job.
           </Paragraph>
         </div>

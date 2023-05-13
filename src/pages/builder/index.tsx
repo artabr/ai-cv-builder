@@ -45,8 +45,6 @@ export default function BuilderPage() {
     profile: [{ role: 'assistant', content: introResultFromAI ?? '' }],
     workExperience: [{ role: 'assistant', content: workResultFromAI ?? '' }],
     education: [{ role: 'assistant', content: educationResultFromAI ?? '' }]
-    workExperience: [{ role: 'assistant', content: cvDataFromRedux.workExperience?.[0].description ?? '' }],
-    education: [{ role: 'assistant', content: cvDataFromRedux.education?.[0].description ?? '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -125,16 +123,11 @@ export default function BuilderPage() {
           <Collapse style={{ width: '100%' }} defaultActiveKey={['1']}>
             <Panel header="Main info" key="1">
               <MainInfoForm
-                fullName={name}
-                address={country}
-                jobTitle={job}
-                skills={skills}
-                hobbies={hobbies}
-                handleSelectChange={handleSelectChange}
-                selectOptions={selectOptions}
                 fullName={cvDataFromRedux.personalInfo.fullName}
                 address={cvDataFromRedux.personalInfo.address}
                 jobTitle={cvDataFromRedux.personalInfo.jobTitle}
+                handleSelectChange={handleSelectChange}
+                selectOptions={selectOptions}
               />
             </Panel>
             <Panel header="Work experience" key="2">
