@@ -56,7 +56,7 @@ export default function AboutPage() {
               avatar="images/Ivan_Cherepnin.png"
               name="Ivan Cherepnin"
               mail="ivan_cherepnin@epam.com"
-              title="Great BE"
+              title="Great BA"
             />
             <UserCard
               avatar="images/Igor_Protsiuk.png"
