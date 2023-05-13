@@ -2,9 +2,10 @@ import React, { FC, useState } from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { Button, Select, Space } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setFullName, setJob, setAddress, setIntroResultFromAI } from '../../features/cv/cvSlice';
+import { setFullName, setJob, setAddress } from '../../features/cv/cvSlice';
 import { IntroSectionResumeFormData } from '../../context/ResumeFormContext';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
+import { setIntroResultFromAI } from '../../features/chat/chatSlice';
 
 export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 
@@ -75,7 +76,7 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
         onChange={(value) => props.handleSelectChange(value, 'profile')}
         options={props.selectOptions}
       />
-      <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
+      <ProFormText name="name" label="Your full name" width="md" placeholder="John Doe" />
       <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
       <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
       <Space wrap>

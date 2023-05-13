@@ -5,14 +5,16 @@ import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
 import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
-import { ResumeViewerType } from '../../CvViewer.types';
+import { getDateFromTimeStampInDay } from '../../formatters/date.formatters';
+import { useAppSelector } from '../../../../hooks/redux';
 
 type ModernColumnsProps = {
-  cv: ResumeViewerType;
   isBlack?: boolean;
 };
 
-export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
+export const ModernColumns = ({ isBlack = false }: ModernColumnsProps) => {
+  const { cv, chat } = useAppSelector((state) => state);
+
   return (
     <div className={cx(isBlack && css.black)}>
       <div>
@@ -27,16 +29,24 @@ export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
         <div className={css.mainContent}>
           <TextWithHeading heading="Work experience" />
           {(cv.workExperience || []).map((el) => (
-            <CVExperienceBlock key={el.companyName} {...el} />
+            <CVExperienceBlock
+              key={el.companyName}
+              title={el.companyName}
+              subtitle={el.position}
+              startDate={getDateFromTimeStampInDay(el.startDate)}
+              endDate={getDateFromTimeStampInDay(el.endDate)}
+              description={chat.workResultFromAI}
+            />
           ))}
           <TextWithHeading heading="Education" />
           {(cv.education || []).map((el) => (
             <CVExperienceBlock
               key={el.universityName}
-              companyName={el.universityName}
-              position={el.speciality}
-              isCurrentWork={el.isCurrentEducation}
-              {...el}
+              title={el.universityName}
+              subtitle={el.speciality}
+              startDate={getDateFromTimeStampInDay(el.startDate)}
+              endDate={getDateFromTimeStampInDay(el.endDate)}
+              description={chat.educationResultFromAI}
             />
           ))}
           <TextWithHeading heading="Skills" />

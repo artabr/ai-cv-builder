@@ -22,10 +22,10 @@ export const getIntroSectionFromAI = async (job?: string, country?: string) => {
 };
 
 export const getWorkSectionFromAI = async (
-  employer?: string,
+  companyName?: string,
   dateTime?: string[],
   position?: string,
-  remark?: string
+  description?: string
 ) => {
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
@@ -33,8 +33,8 @@ export const getWorkSectionFromAI = async (
       { role: 'system', content: 'You are a professional career advisor.' },
       {
         role: 'user',
-        content: `I worked at ${employer} from ${dateTime?.join(' to ')} as a ${position}.
-        The key things there were: ${remark}.
+        content: `I worked at ${companyName} from ${dateTime?.join(' to ')} as a ${position}.
+        The key things there were: ${description}.
         Compose a paragraph where I tell about my work experience.
         It should have no more than 5 sentences. Don't start from "As a".`
       }

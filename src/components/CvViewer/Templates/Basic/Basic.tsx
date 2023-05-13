@@ -1,17 +1,18 @@
-import { ResumeViewerType } from '../../CvViewer.types';
 import css from './Basic.module.css';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
 import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
 import { Avatar } from '../../Avatar/Avatar';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
+import { useAppSelector } from '../../../../hooks/redux';
+import { getDateFromTimeStampInDay } from '../../formatters/date.formatters';
 
 type CvViewerProps = {
-  cv: ResumeViewerType;
   isReverse?: boolean;
 };
 
-export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
+export const Basic = ({ isReverse = false }: CvViewerProps) => {
+  const { cv, chat } = useAppSelector((state) => state);
   const { personalInfo, workExperience, education, skills, hobbies, additionalBlocks } = cv;
 
   return (
@@ -20,16 +21,24 @@ export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
         <TextWithHeading heading="Description" text={personalInfo.description} />
         <TextWithHeading heading="Work experience" />
         {(workExperience || []).map((el) => (
-          <CVExperienceBlock key={el.companyName} {...el} />
+          <CVExperienceBlock
+            key={el.companyName}
+            title={el.companyName}
+            subtitle={el.position}
+            startDate={getDateFromTimeStampInDay(el.startDate)}
+            endDate={getDateFromTimeStampInDay(el.endDate)}
+            description={chat.workResultFromAI}
+          />
         ))}
         <TextWithHeading heading="Education" />
         {(education || []).map((el) => (
           <CVExperienceBlock
             key={el.universityName}
-            companyName={el.universityName}
-            position={el.speciality}
-            isCurrentWork={el.isCurrentEducation}
-            {...el}
+            title={el.universityName}
+            subtitle={el.speciality}
+            startDate={getDateFromTimeStampInDay(el.startDate)}
+            endDate={getDateFromTimeStampInDay(el.endDate)}
+            description={chat.educationResultFromAI}
           />
         ))}
         <TextWithHeading heading="Skills" />

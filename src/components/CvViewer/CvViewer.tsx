@@ -1,24 +1,24 @@
-import { ResumeViewerType, Template } from './CvViewer.types';
+import { Template } from './CvViewer.types';
 import { Basic } from './Templates/Basic/Basic';
 import { Modern } from './Templates/Modern/Modern';
 import { ModernColumns } from './Templates/ModernColumns/ModernColumns';
+import { useAppSelector } from '../../hooks/redux';
 
-type CvViewerProps = {
-  cv: ResumeViewerType;
-};
-export const CvViewer = ({ cv }: CvViewerProps) => {
-  switch (cv.template) {
+export const CvViewer = () => {
+  const { template } = useAppSelector((state) => state.cv);
+
+  switch (template) {
     case Template.Basic:
-      return <Basic cv={cv} isReverse />;
+      return <Basic isReverse />;
     case Template.Modern:
-      return <Modern cv={cv} />;
+      return <Modern />;
     case Template.ModernBlack:
-      return <Modern cv={cv} isBlack />;
+      return <Modern isBlack />;
     case Template.ModernColumns:
-      return <ModernColumns cv={cv} />;
+      return <ModernColumns />;
     case Template.ModernColumnBlack:
-      return <ModernColumns cv={cv} isBlack />;
+      return <ModernColumns isBlack />;
     default:
-      return <Basic cv={cv} />;
+      return <Basic />;
   }
 };
