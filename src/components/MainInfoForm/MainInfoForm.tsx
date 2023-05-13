@@ -7,7 +7,10 @@ import { Button, Select, Space } from 'antd';
 
 export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 import { setFullName, setJob, setAddress, setSkills, setHobbies } from '../../features/cv/cvSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setFullName, setJob, setAddress } from '../../features/cv/cvSlice';
+import { IntroSectionResumeFormData } from '../../context/ResumeFormContext';
+import { fetchSectionFromAPI } from '../../api/client/wizard';
 
 type MainInfoFormProps = {
   jobTitle?: string;
@@ -22,6 +25,17 @@ type MainInfoFormProps = {
 export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
   const [infoEdited, setInfoEdited] = useState(false);
   const dispatch = useAppDispatch();
+  const cvDataFromRedux = useAppSelector((state) => state.cv);
+
+  const handleIntroStep = async () => {
+    const values: IntroSectionResumeFormData = {
+      name: cvDataFromRedux.personalInfo.fullName,
+      job: cvDataFromRedux.personalInfo.jobTitle,
+      country: cvDataFromRedux.personalInfo.address
+    };
+    const introSection = await fetchSectionFromAPI(values, 'intro');
+    return true;
+  };
 
   return (
     <ProForm
@@ -69,7 +83,13 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
       <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
       <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
       <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
-      <Space wrap>{infoEdited && <Button type="primary">Regenerate description</Button>}</Space>
+      <Space wrap>
+        {infoEdited && (
+          <Button type="primary" onClick={handleIntroStep}>
+            Regenerate description
+          </Button>
+        )}
+      </Space>
     </ProForm>
   );
 };
