@@ -23,7 +23,7 @@ const { Panel } = Collapse;
 const dontDoTemplate =
   'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
 
-type AIResumeTypes = 'workExperience' | 'education';
+type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 
 export default function BuilderPage() {
   const { cvData, setCvData } = useCvContext();
@@ -31,11 +31,18 @@ export default function BuilderPage() {
     introSectionFormData: { name, country, job },
     skillsSectionFormData: { skills, hobbies },
     workSectionFormData: { employer, position, dateTime, remark },
-    educationSectionFormData: { institution, field, studyDateTime, studyRemark }
+    educationSectionFormData: { institution, field, studyDateTime, studyRemark },
+    introResultFromAI,
+    setIntroResultFromAI,
+    workResultFromAI,
+    setWorkResultFromAI,
+    educationResultFromAI,
+    setEducationResultFromAI
   } = useResumeFormContext();
   const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
-    workExperience: [{ role: 'assistant', content: cvData.workExperience?.[0].description ?? '' }],
-    education: [{ role: 'assistant', content: cvData.education?.[0].description ?? '' }]
+    profile: [{ role: 'assistant', content: introResultFromAI ?? '' }],
+    workExperience: [{ role: 'assistant', content: workResultFromAI ?? '' }],
+    education: [{ role: 'assistant', content: educationResultFromAI ?? '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -76,7 +83,19 @@ export default function BuilderPage() {
     });
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    setCvData({ ...cvData, [context]: [{ ...cvData[context][0], description: answer }] || [] });
+    switch (context) {
+      case 'workExperience':
+        setWorkResultFromAI(answer || '');
+        break;
+      case 'education':
+        setEducationResultFromAI(answer || '');
+        break;
+      case 'profile':
+        setIntroResultFromAI(answer || '');
+        break;
+      default:
+        break;
+    }
   };
 
   const handleChange = async (value: string, context: AIResumeTypes = 'workExperience') => {
@@ -115,6 +134,12 @@ export default function BuilderPage() {
                   console.log('Received values of form:', values);
                 }}
               >
+                <Select
+                  placeholder="Customize your experience"
+                  style={{ width: 200, marginBottom: 20 }}
+                  onChange={(value) => handleChange(value, 'workExperience')}
+                  options={selectOptions}
+                />
                 <ProFormList
                   name="users"
                   creatorButtonProps={{
@@ -141,12 +166,6 @@ export default function BuilderPage() {
                   </ProFormGroup>
                 </ProFormList>
               </ProForm>
-              <Select
-                placeholder="Customize your experience"
-                style={{ width: 200, marginTop: 20 }}
-                onChange={(value) => handleChange(value, 'workExperience')}
-                options={selectOptions}
-              />
             </Panel>
             <Panel header="Education" key="3">
               <ProForm
@@ -154,6 +173,12 @@ export default function BuilderPage() {
                   console.log('Received values of form:', values);
                 }}
               >
+                <Select
+                  placeholder="Customize your experience"
+                  style={{ width: 200, marginBottom: 20 }}
+                  onChange={(value) => handleChange(value, 'education')}
+                  options={selectOptions}
+                />
                 <ProFormList
                   name="users"
                   creatorButtonProps={{
