@@ -8,20 +8,48 @@ import {
   ProFormGroup,
   ProFormSelect
 } from '@ant-design/pro-components';
-import { Collapse } from 'antd';
-import { EditForm } from '../../components/EditForm/EditForm';
+import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { useCvContext } from '../../context/CvContext';
-import { Paper } from '../../components/Paper/Paper';
+import { Paper } from '../../components/Paper';
+import { useResumeFormContext } from '../../context/ResumeFormContext';
+import { Template } from '../../components/CvViewer/CvViewer.types';
+import './builder.less';
 
 const { Panel } = Collapse;
 
 export default function BuilderPage() {
-  const { cvData } = useCvContext();
+  const { cvData, setCvData } = useCvContext();
+  const {
+    introSectionFormData: { name, country, job },
+    skillsSectionFormData: { skills, hobbies },
+    workSectionFormData: { employer, position, dateTime, remark },
+    educationSectionFormData: { institution, field, studyDateTime, studyRemark }
+  } = useResumeFormContext();
+  const templatesSelectOptions = [
+    Template.Basic,
+    Template.BasicReverse,
+    Template.Modern,
+    Template.ModernBlack,
+    Template.ModernColumns,
+    Template.ModernColumnBlack
+  ].map((el) => ({
+    text: el,
+    value: el
+  }));
 
   return (
     <div>
-      <h1>Builder Page</h1>
+      <div className="page-header">
+        <h1>Builder Page</h1>
+        <Select
+          style={{ width: 200 }}
+          placeholder="Choose template"
+          options={templatesSelectOptions}
+          onChange={(value) => setCvData({ ...cvData, template: value })}
+          value={cvData.template}
+        />
+      </div>
       <ProCard gutter={8} style={{ marginBlockStart: 8 }}>
         <ProCard colSpan={12} layout="center">
           <Collapse style={{ width: '100%' }} defaultActiveKey={['1']}>
@@ -30,6 +58,7 @@ export default function BuilderPage() {
                 onFinish={async (values) => {
                   console.log('Received values of form:', values);
                 }}
+                initialValues={{ name, job, country, skills, hobbies }}
               >
                 <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
                 <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
@@ -50,6 +79,7 @@ export default function BuilderPage() {
                     position: 'bottom',
                     creatorButtonText: 'Add new work experience'
                   }}
+                  initialValue={[{ employer, position, dateTime, remark }]}
                 >
                   <ProFormGroup key="group">
                     <ProFormText name="employer" label="Your last employer" width="md" placeholder="EPAM" />
@@ -82,17 +112,21 @@ export default function BuilderPage() {
                     position: 'bottom',
                     creatorButtonText: 'Add new education'
                   }}
+                  initialValue={[{ institution, field, studyDateTime, studyRemark }]}
                 >
                   <ProFormGroup key="group">
-                    <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
-                    <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
-                    <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
+                    <ProFormText name="institution" label="Where did you study?" width="md" placeholder="MIT" />
+                    <ProFormText name="field" label="Field of study?" width="md" placeholder="Computer Science" />
+                    <ProFormDateRangePicker name="studyDateTime" label="Period of education" />
+                    <ProFormTextArea
+                      name="studyRemark"
+                      label="Key points about your education"
+                      width="lg"
+                      placeholder="In short phrases tell us about what you did there"
+                    />
                   </ProFormGroup>
                 </ProFormList>
               </ProForm>
-            </Panel>
-            <Panel header="Old form" key="4">
-              <EditForm />
             </Panel>
           </Collapse>
         </ProCard>
