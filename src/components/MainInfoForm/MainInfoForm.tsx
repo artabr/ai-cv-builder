@@ -1,11 +1,13 @@
 import React, { FC, useState } from 'react';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
+import { Button, Space } from 'antd';
+import { useAppDispatch } from '../../hooks/redux';
+import { setFullName } from '../../features/cv/cvSlice';
 import { Button, Select, Space } from 'antd';
 
 export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 
 type MainInfoFormProps = {
-  onNameChange?: (name: string) => void;
   onJobChange?: (job: string) => void;
   onCountryChange?: (country: string) => void;
   onSkillsChange?: (skills: string[]) => void;
@@ -22,13 +24,14 @@ type MainInfoFormProps = {
 export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
   const [infoEdited, setInfoEdited] = useState(false);
   const [skillsEdited, setSkillsEdited] = useState(false);
+  const dispatch = useAppDispatch();
 
   return (
     <ProForm
       onValuesChange={(changeValues) => {
         switch (true) {
           case 'name' in changeValues:
-            props.onNameChange?.(changeValues.name);
+            dispatch(setFullName(changeValues.name));
             break;
           case 'job' in changeValues:
             props.onJobChange?.(changeValues.job);

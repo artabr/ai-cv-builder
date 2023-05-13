@@ -17,6 +17,7 @@ import { Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
+import { useAppSelector } from '../../hooks/redux';
 
 const { Panel } = Collapse;
 
@@ -25,6 +26,8 @@ const dontDoTemplate =
 
 export default function BuilderPage() {
   const { cvData, setCvData } = useCvContext();
+  const cvDataFromRedux = useAppSelector((state) => state.cv);
+
   const {
     introSectionFormData: { name, country, job },
     skillsSectionFormData: { skills, hobbies },
@@ -41,6 +44,8 @@ export default function BuilderPage() {
     profile: [{ role: 'assistant', content: introResultFromAI ?? '' }],
     workExperience: [{ role: 'assistant', content: workResultFromAI ?? '' }],
     education: [{ role: 'assistant', content: educationResultFromAI ?? '' }]
+    workExperience: [{ role: 'assistant', content: cvDataFromRedux.workExperience?.[0].description ?? '' }],
+    education: [{ role: 'assistant', content: cvDataFromRedux.education?.[0].description ?? '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -111,7 +116,7 @@ export default function BuilderPage() {
           placeholder="Choose template"
           options={templatesSelectOptions}
           onChange={(value) => setCvData({ ...cvData, template: value })}
-          value={cvData.template}
+          value={cvDataFromRedux.template}
         />
       </div>
       <ProCard gutter={8} style={{ marginBlockStart: 8 }}>
@@ -126,6 +131,11 @@ export default function BuilderPage() {
                 hobbies={hobbies}
                 handleSelectChange={handleSelectChange}
                 selectOptions={selectOptions}
+                fullName={cvDataFromRedux.personalInfo.fullName}
+                address={cvDataFromRedux.personalInfo.address}
+                jobTitle={cvDataFromRedux.personalInfo.jobTitle}
+                skills={cvDataFromRedux.skills}
+                hobbies={cvDataFromRedux.hobbies}
               />
             </Panel>
             <Panel header="Work experience" key="2">
@@ -205,7 +215,7 @@ export default function BuilderPage() {
         </ProCard>
         <ProCard colSpan={12} layout="center">
           <Paper>
-            <CvViewer cv={cvData} />
+            <CvViewer cv={cvDataFromRedux} />
           </Paper>
         </ProCard>
       </ProCard>

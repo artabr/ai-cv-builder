@@ -4,9 +4,11 @@ import Head from 'next/head';
 import 'antd/dist/reset.css';
 import enUs from 'antd/locale/en_US';
 import { ConfigProvider } from 'antd';
+import { Provider } from 'react-redux';
 import { MainLayout } from '../components';
 import { ResumeFormProvider } from '../context/ResumeFormContext';
 import { CvContextProvider } from '../context/CvContext';
+import { store } from '../store/store';
 
 /**
  * This component is used to prevent the server from rendering the page before the client has a chance to render it.
@@ -34,15 +36,17 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
       <main>
         <ClientOnly>
-          <ConfigProvider locale={enUs}>
-            <ResumeFormProvider>
-              <CvContextProvider>
-                <MainLayout>
-                  <Component {...pageProps} />
-                </MainLayout>
-              </CvContextProvider>
-            </ResumeFormProvider>
-          </ConfigProvider>
+          <Provider store={store}>
+            <ConfigProvider locale={enUs}>
+              <ResumeFormProvider>
+                <CvContextProvider>
+                  <MainLayout>
+                    <Component {...pageProps} />
+                  </MainLayout>
+                </CvContextProvider>
+              </ResumeFormProvider>
+            </ConfigProvider>
+          </Provider>
         </ClientOnly>
       </main>
     </>
