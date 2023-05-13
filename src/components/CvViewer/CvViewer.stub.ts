@@ -17,8 +17,9 @@ export const cvDataMock: ResumeViewerType = {
       id: '1',
       companyName: 'EPAM',
       position: 'Frontend Developer',
+      dateTime: ['2015-05-11', '2023-05-12'],
       startDate: '2023-05-12',
-      endDate: '2015-05-12',
+      endDate: '2015-05-11',
       isCurrentWork: true,
       description: 'Description of a great developer.'
     },
@@ -26,6 +27,7 @@ export const cvDataMock: ResumeViewerType = {
       id: '2',
       companyName: 'Google',
       position: 'Frontend Developer',
+      dateTime: ['2000-05-12', '2015-05-11'],
       startDate: '2015-05-11',
       endDate: '2000-05-12',
       description: 'Description of a great developer.'
@@ -36,6 +38,7 @@ export const cvDataMock: ResumeViewerType = {
       id: '1',
       universityName: 'Grodno State Medical University',
       speciality: 'Doctor',
+      dateTime: ['2015-05-12', '2023-05-12'],
       startDate: '2023-05-12',
       endDate: '2015-05-12',
       description: 'Description of a great doctor.'

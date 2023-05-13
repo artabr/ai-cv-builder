@@ -15,27 +15,31 @@ export type PersonalInfoType = {
   address?: string;
   avatar?: string;
   isShowAvatar?: boolean;
-  description?: string; // richText? or just string
+  description?: string;
 };
 
 export type WorkExperienceType = {
   id: string;
   companyName?: string;
-  position?: string; // job title
+  position?: string;
+  dateTime?: string[]; // american date format
   startDate?: string; // american date format
   endDate?: string; // american date format
   isCurrentWork?: boolean;
-  description?: string; // richText? or just string
+  description?: string;
+  remark?: string;
 };
 
 export type EducationType = {
   id: string;
   universityName?: string;
   speciality?: string;
+  dateTime?: string[]; // american date format
   startDate?: string; // american date format
   endDate?: string; // american date format
   isCurrentEducation?: boolean;
-  description?: string; // richText? or just string
+  description?: string;
+  remark?: string;
 };
 
 export type ResumeViewerType = {

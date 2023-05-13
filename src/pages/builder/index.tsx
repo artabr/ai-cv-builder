@@ -132,6 +132,18 @@ export default function BuilderPage() {
                 onFinish={async (values) => {
                   console.log('Received values of form:', values);
                 }}
+                submitter={{
+                  resetButtonProps: {
+                    style: {
+                      display: 'none'
+                    }
+                  },
+                  submitButtonProps: {
+                    style: {
+                      display: 'none'
+                    }
+                  }
+                }}
               >
                 <Select
                   placeholder="Customize your experience"
@@ -145,9 +157,11 @@ export default function BuilderPage() {
                     position: 'bottom',
                     creatorButtonText: 'Add new work experience'
                   }}
+                  initialValue={cvDataFromRedux.workExperience}
+                  copyIconProps={false}
                 >
                   <ProFormGroup key="group">
-                    <ProFormText name="employer" label="Your last employer" width="md" placeholder="EPAM" />
+                    <ProFormText name="companyName" label="Your last employer" width="md" placeholder="EPAM" />
                     <ProFormText
                       name="position"
                       label="Position on the job"
@@ -170,6 +184,18 @@ export default function BuilderPage() {
                 onFinish={async (values) => {
                   console.log('Received values of form:', values);
                 }}
+                submitter={{
+                  resetButtonProps: {
+                    style: {
+                      display: 'none'
+                    }
+                  },
+                  submitButtonProps: {
+                    style: {
+                      display: 'none'
+                    }
+                  }
+                }}
               >
                 <Select
                   placeholder="Customize your experience"
@@ -183,14 +209,15 @@ export default function BuilderPage() {
                     position: 'bottom',
                     creatorButtonText: 'Add new education'
                   }}
-                  initialValue={[{ institution, field, studyDateTime, studyRemark }]}
+                  initialValue={cvDataFromRedux.education}
+                  copyIconProps={false}
                 >
                   <ProFormGroup key="group">
-                    <ProFormText name="institution" label="Where did you study?" width="md" placeholder="MIT" />
-                    <ProFormText name="field" label="Field of study?" width="md" placeholder="Computer Science" />
-                    <ProFormDateRangePicker name="studyDateTime" label="Period of education" />
+                    <ProFormText name="universityName" label="Where did you study?" width="md" placeholder="MIT" />
+                    <ProFormText name="speciality" label="Field of study?" width="md" placeholder="Computer Science" />
+                    <ProFormDateRangePicker name="dateTime" label="Period of education" />
                     <ProFormTextArea
-                      name="studyRemark"
+                      name="remark"
                       label="Key points about your education"
                       width="lg"
                       placeholder="In short phrases tell us about what you did there"
