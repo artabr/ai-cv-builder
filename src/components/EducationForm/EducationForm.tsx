@@ -8,21 +8,39 @@ import {
   ProFormTextArea
 } from '@ant-design/pro-components';
 import { EducationType } from '../CvViewer/CvViewer.types';
-import { updateEducation } from '../../features/cv/cvSlice';
+import { addEducation, updateEducation, removeEducation } from '../../features/cv/cvSlice';
 import { useAppDispatch } from '../../hooks/redux';
 
 type EducationFormProps = {
   education: EducationType[];
 };
 
+const emptyEducation: EducationType = {
+  id: '0',
+  universityName: 'University name',
+  speciality: 'Field of study',
+  remark: ''
+};
+
 export const EducationForm: FC<EducationFormProps> = (props) => {
   const dispatch = useAppDispatch();
+  const actionGuard = {
+    beforeAddRow: (defaultValue, insertIndex) => {
+      // eslint-disable-next-line no-param-reassign
+      defaultValue.universityName = 'University name';
+      // eslint-disable-next-line no-param-reassign
+      defaultValue.speciality = 'Field of study';
+      dispatch(addEducation({ ...emptyEducation, id: insertIndex.toString() }));
+      return true;
+    },
+    beforeRemoveRow: async (index) => {
+      dispatch(removeEducation(index.toString()));
+      return true;
+    }
+  };
 
   return (
     <ProForm
-      onFinish={async (values) => {
-        console.log('Received values of form:', values);
-      }}
       onValuesChange={(changeValues) => {
         const index = changeValues.education.findIndex((item) => !!item);
         console.log('changeValues index', index);
@@ -49,6 +67,7 @@ export const EducationForm: FC<EducationFormProps> = (props) => {
         }}
         initialValue={props.education}
         copyIconProps={false}
+        actionGuard={actionGuard}
       >
         <ProFormGroup key="group">
           <ProFormText name="universityName" label="Where did you study?" width="md" placeholder="MIT" />

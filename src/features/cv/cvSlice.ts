@@ -19,13 +19,16 @@ const cvSlice = createSlice({
     setDescription(state, action: PayloadAction<string>) {
       state.personalInfo.description = action.payload;
     },
-    addWorkingExperience(state, action: PayloadAction<WorkExperienceType>) {
+    addWorkExperience(state, action: PayloadAction<WorkExperienceType>) {
       state.workExperience = [...state.workExperience, action.payload];
     },
     updateWorkExperience(state, action: PayloadAction<WorkExperienceType>) {
       state.workExperience = state?.workExperience?.map((company) => {
         return company.id === action.payload.id ? { ...company, ...action.payload } : company;
       });
+    },
+    removeWorkExperience(state, action: PayloadAction<string>) {
+      state.workExperience = state?.workExperience?.filter((company) => company.id !== action.payload);
     },
     addEducation(state, action: PayloadAction<EducationType>) {
       state.education = [...state.education, action.payload];
@@ -34,6 +37,9 @@ const cvSlice = createSlice({
       state.education = state?.education?.map((institution) => {
         return institution.id === action.payload.id ? { ...institution, ...action.payload } : institution;
       });
+    },
+    removeEducation(state, action: PayloadAction<string>) {
+      state.education = state?.education?.filter((institution) => institution.id !== action.payload);
     },
     setSkills(state, action: PayloadAction<string[]>) {
       state.skills = action.payload;
@@ -52,10 +58,12 @@ export const {
   setJob,
   setAddress,
   setDescription,
-  addWorkingExperience,
+  addWorkExperience,
   updateWorkExperience,
+  removeWorkExperience,
   addEducation,
   updateEducation,
+  removeEducation,
   setSkills,
   setHobbies,
   setTemplate

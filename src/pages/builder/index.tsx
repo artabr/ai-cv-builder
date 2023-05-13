@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import {
-  ProCard,
-  ProFormDateRangePicker,
-  ProFormText,
-  ProFormTextArea,
-  ProForm,
-  ProFormList,
-  ProFormGroup
-} from '@ant-design/pro-components';
+import { ProCard } from '@ant-design/pro-components';
 import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { Paper } from '../../components/Paper';

@@ -9,20 +9,38 @@ import {
 } from '@ant-design/pro-components';
 import { WorkExperienceType } from '../CvViewer/CvViewer.types';
 import { useAppDispatch } from '../../hooks/redux';
-import { updateWorkExperience } from '../../features/cv/cvSlice';
+import { addWorkExperience, removeWorkExperience, updateWorkExperience } from '../../features/cv/cvSlice';
 
 type WorkExperienceFormProps = {
   workExperience: WorkExperienceType[];
 };
 
+const emptyWorkExperience: WorkExperienceType = {
+  id: '0',
+  companyName: 'Company name',
+  position: 'Position on the job',
+  remark: ''
+};
+
 export const WorkExperienceForm: FC<WorkExperienceFormProps> = (props) => {
   const dispatch = useAppDispatch();
+  const actionGuard = {
+    beforeAddRow: (defaultValue, insertIndex) => {
+      // eslint-disable-next-line no-param-reassign
+      defaultValue.companyName = 'Company name';
+      // eslint-disable-next-line no-param-reassign
+      defaultValue.position = 'Position on the job';
+      dispatch(addWorkExperience({ ...emptyWorkExperience, id: insertIndex.toString() }));
+      return true;
+    },
+    beforeRemoveRow: async (index) => {
+      dispatch(removeWorkExperience(index.toString()));
+      return true;
+    }
+  };
 
   return (
     <ProForm
-      onFinish={async (values) => {
-        console.log('Received values of form:', values);
-      }}
       onValuesChange={(changeValues) => {
         const index = changeValues.workExperience.findIndex((item) => !!item);
         console.log('changeValues index', index);
@@ -49,6 +67,7 @@ export const WorkExperienceForm: FC<WorkExperienceFormProps> = (props) => {
         }}
         initialValue={props.workExperience}
         copyIconProps={false}
+        actionGuard={actionGuard}
       >
         <ProFormGroup key="group">
           <ProFormText name="companyName" label="Your last employer" width="md" placeholder="EPAM" />

@@ -19,7 +19,7 @@ import {
 import { fetchSectionFromAPI } from '../../api/client/wizard';
 import { PersonalInfoType, WorkExperienceType } from '../../components/CvViewer/CvViewer.types';
 import { useAppDispatch } from '../../hooks/redux';
-import { addWorkingExperience, setAddress, setFullName, setJob } from '../../features/cv/cvSlice';
+import { addWorkExperience, setAddress, setFullName, setJob } from '../../features/cv/cvSlice';
 import { setIntroResultFromAI, setWorkResultFromAI } from '../../features/chat/chatSlice';
 
 export default function WizardPage() {
@@ -41,7 +41,7 @@ export default function WizardPage() {
 
   const handleWorkStep = async (values: WorkSectionResumeFormData) => {
     const { companyName, position, remark, dateTime } = values;
-    dispatch(addWorkingExperience({ id: 1, companyName: companyName ?? '', position: position ?? '', dateTime }));
+    dispatch(addWorkExperience({ id: 1, companyName: companyName ?? '', position: position ?? '', dateTime }));
     const workSection = await fetchSectionFromAPI({ companyName, position, remark, dateTime }, 'work');
     dispatch(setWorkResultFromAI(workSection));
     return true;
