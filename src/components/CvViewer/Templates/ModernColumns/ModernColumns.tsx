@@ -3,7 +3,7 @@ import css from './ModernColumns.module.css';
 import { ModernHeader } from '../Modern/ModernHeader/ModernHeader';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
-import { WorkBlock } from '../../WorkBlock/WorkBlock';
+import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
 import { ResumeViewerType } from '../../CvViewer.types';
 
@@ -27,11 +27,11 @@ export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
         <div className={css.mainContent}>
           <TextWithHeading heading="Work experience" />
           {(cv.workExperience || []).map((el) => (
-            <WorkBlock key={el.companyName} {...el} />
+            <CVExperienceBlock key={el.companyName} {...el} />
           ))}
           <TextWithHeading heading="Education" />
           {(cv.education || []).map((el) => (
-            <WorkBlock
+            <CVExperienceBlock
               key={el.universityName}
               companyName={el.universityName}
               position={el.speciality}

@@ -1,6 +1,8 @@
 import React, { FC, useState } from 'react';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import { Button, Space } from 'antd';
+import { Button, Select, Space } from 'antd';
+
+export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 
 type MainInfoFormProps = {
   onNameChange?: (name: string) => void;
@@ -13,6 +15,8 @@ type MainInfoFormProps = {
   address?: string;
   skills?: string[];
   hobbies?: string[];
+  handleSelectChange: (value: string, context: AIResumeTypes) => Promise<void>;
+  selectOptions: { value: string; label: string }[];
 };
 
 export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
@@ -66,6 +70,12 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
         }
       }}
     >
+      <Select
+        placeholder="Customize your experience"
+        style={{ width: 200, marginBottom: 20 }}
+        onChange={(value) => props.handleSelectChange(value, 'profile')}
+        options={props.selectOptions}
+      />
       <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
       <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
       <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />

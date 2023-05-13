@@ -1,7 +1,7 @@
 import { ResumeViewerType } from '../../CvViewer.types';
 import css from './Basic.module.css';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
-import { WorkBlock } from '../../WorkBlock/WorkBlock';
+import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
 import { Avatar } from '../../Avatar/Avatar';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
@@ -20,11 +20,11 @@ export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
         <TextWithHeading heading="Description" text={personalInfo.description} />
         <TextWithHeading heading="Work experience" />
         {(workExperience || []).map((el) => (
-          <WorkBlock key={el.companyName} {...el} />
+          <CVExperienceBlock key={el.companyName} {...el} />
         ))}
         <TextWithHeading heading="Education" />
         {(education || []).map((el) => (
-          <WorkBlock
+          <CVExperienceBlock
             key={el.universityName}
             companyName={el.universityName}
             position={el.speciality}
