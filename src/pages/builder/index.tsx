@@ -20,6 +20,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SkillsForm } from '../../components/SkillsForm';
 import { setTemplate } from '../../features/cv/cvSlice';
 import { WorkExperienceForm } from '../../components/WorkExperienceForm';
+import { EducationForm } from '../../components/EducationForm';
 
 const { Panel } = Collapse;
 
@@ -132,51 +133,7 @@ export default function BuilderPage() {
               <WorkExperienceForm workExperience={cvDataFromRedux.workExperience} />{' '}
             </Panel>
             <Panel header="Education" key="3">
-              <ProForm
-                onFinish={async (values) => {
-                  console.log('Received values of form:', values);
-                }}
-                submitter={{
-                  resetButtonProps: {
-                    style: {
-                      display: 'none'
-                    }
-                  },
-                  submitButtonProps: {
-                    style: {
-                      display: 'none'
-                    }
-                  }
-                }}
-              >
-                <Select
-                  placeholder="Customize your experience"
-                  style={{ width: 200, marginBottom: 20 }}
-                  onChange={(value) => handleSelectChange(value, 'education')}
-                  options={selectOptions}
-                />
-                <ProFormList
-                  name="users"
-                  creatorButtonProps={{
-                    position: 'bottom',
-                    creatorButtonText: 'Add new education'
-                  }}
-                  initialValue={cvDataFromRedux.education}
-                  copyIconProps={false}
-                >
-                  <ProFormGroup key="group">
-                    <ProFormText name="universityName" label="Where did you study?" width="md" placeholder="MIT" />
-                    <ProFormText name="speciality" label="Field of study?" width="md" placeholder="Computer Science" />
-                    <ProFormDateRangePicker name="dateTime" label="Period of education" />
-                    <ProFormTextArea
-                      name="remark"
-                      label="Key points about your education"
-                      width="lg"
-                      placeholder="In short phrases tell us about what you did there"
-                    />
-                  </ProFormGroup>
-                </ProFormList>
-              </ProForm>
+              <EducationForm education={cvDataFromRedux.education} />
             </Panel>
             <Panel header="Skills and hobbies" key="4">
               <SkillsForm skills={cvDataFromRedux.skills} hobbies={cvDataFromRedux.hobbies} />

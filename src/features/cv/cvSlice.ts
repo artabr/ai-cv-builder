@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { cvDataMock } from '../../components/CvViewer/CvViewer.stub';
-import { Template, WorkExperienceType } from '../../components/CvViewer/CvViewer.types';
+import { EducationType, Template, WorkExperienceType } from '../../components/CvViewer/CvViewer.types';
 
 const cvSlice = createSlice({
   name: 'cv',
@@ -27,28 +27,12 @@ const cvSlice = createSlice({
         return company.id === action.payload.id ? { ...company, ...action.payload } : company;
       });
     },
-    setCompanyName(state, action: PayloadAction<{ id: string | number; companyName: string }>) {
-      state.workExperience = state?.workExperience?.map((company) => {
-        if (company.id === action.payload.id) {
-          company.companyName = action.payload.companyName;
-        }
-        return company;
-      });
+    addEducation(state, action: PayloadAction<EducationType>) {
+      state.education = [...state.education, action.payload];
     },
-    setPosition(state, action: PayloadAction<{ id: string | number; position: string }>) {
-      state.workExperience = state?.workExperience?.map((company) => {
-        if (company.id === action.payload.id) {
-          company.position = action.payload.position;
-        }
-        return company;
-      });
-    },
-    setCompanyDescription(state, action: PayloadAction<{ id: string | number; description: string }>) {
-      state.workExperience = state?.workExperience?.map((company) => {
-        if (company.id === action.payload.id) {
-          company.description = action.payload.description;
-        }
-        return company;
+    updateEducation(state, action: PayloadAction<EducationType>) {
+      state.education = state?.education?.map((institution) => {
+        return institution.id === action.payload.id ? { ...institution, ...action.payload } : institution;
       });
     },
     setSkills(state, action: PayloadAction<string[]>) {
@@ -70,9 +54,8 @@ export const {
   setDescription,
   addWorkingExperience,
   updateWorkExperience,
-  setCompanyName,
-  setPosition,
-  setCompanyDescription,
+  addEducation,
+  updateEducation,
   setSkills,
   setHobbies,
   setTemplate

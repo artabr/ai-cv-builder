@@ -46,8 +46,8 @@ export type ResumeViewerType = {
   template?: Template; // ...
   personalInfo: PersonalInfoType;
   workExperience: WorkExperienceType[];
-  education?: EducationType[];
-  skills?: string[];
-  hobbies?: string[];
+  education: EducationType[];
+  skills: string[];
+  hobbies: string[];
   summary?: string;
 };
