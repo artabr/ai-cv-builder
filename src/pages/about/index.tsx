@@ -50,7 +50,7 @@ export default function AboutPage() {
               avatar="images/Artem_Abramov.png"
               name="Artem Abramov"
               mail="artem_abramov1@epam.com"
-              title="General director"
+              title="CEO"
             />
             <UserCard
               avatar="images/Ivan_Cherepnin.png"
