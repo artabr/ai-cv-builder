@@ -34,7 +34,7 @@ export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
         ))}
         <TextWithHeading heading="Skills" />
         <StringArrayViewer items={skills} />
-        <TextWithHeading heading="StringArrayViewer" />
+        <TextWithHeading heading="Hobbies" />
         <StringArrayViewer items={hobbies} />
         {(additionalBlocks || []).map((el) => (
           <TextWithHeading key={el.title} heading={el.title} text={el.description} />

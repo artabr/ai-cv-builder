@@ -36,7 +36,7 @@ export const Modern = ({ cv, isBlack = false }: CvViewerProps) => {
         ))}
         <TextWithHeading heading="Skills" />
         <StringArrayViewer items={cv.skills} />
-        <TextWithHeading heading="StringArrayViewer" />
+        <TextWithHeading heading="Hobbies" />
         <StringArrayViewer items={cv.hobbies} />
         {(cv.additionalBlocks || []).map((el) => (
           <TextWithHeading key={el.title} heading={el.title} text={el.description} />
