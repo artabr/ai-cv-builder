@@ -1,3 +1,5 @@
+import { IntroSectionResumeFormData } from '../context/ResumeFormContext';
+
 export type OpenAIResponse = {
   id: string;
   choices: {
@@ -18,7 +20,7 @@ export type OpenAIResponse = {
   };
 };
 
-export type ConversationHistory = { role: 'user' | 'assistant' | 'system'; content: string }[];
+export type ConversationHistory = Array<{ role: 'user' | 'assistant' | 'system'; content: string }> | null | undefined;
 
 export const callOpenAI = async (
   messages: ConversationHistory,
@@ -46,7 +48,7 @@ export const callOpenAI = async (
 };
 
 export const addContext = async (history: ConversationHistory, text: string): Promise<string | undefined> => {
-  const messages: ConversationHistory = [...history, { role: 'user', content: text }];
+  const messages: ConversationHistory = [...(history?.length ? history : []), { role: 'user', content: text }];
 
   const res = await callOpenAI(messages);
 
@@ -56,13 +58,20 @@ export const addContext = async (history: ConversationHistory, text: string): Pr
   return undefined;
 };
 
-export const getGeneratedDescription = async (history: ConversationHistory, qualifications: string[]) => {
-  const TEMPLATE = `I need a professional and concise description for a CV of a software engineer with the
-  following qualifications and experience: ${qualifications.join(', ')}.
-  Please provide a summary of these qualifications and experience, emphasizing the candidate's strengths and accomplishments.
+export const getGeneratedDescription = async (
+  history: ConversationHistory,
+  introSectionFormData: IntroSectionResumeFormData
+) => {
+  const TEMPLATE = `I need a professional and concise description for a CV with the following data:
+    Name: ${introSectionFormData.name},
+    Country: ${introSectionFormData.country},
+    Job: ${introSectionFormData.job},
+
+    Please provide a summary of these qualifications and experience, emphasizing the candidate's strengths and accomplishments.
+    Write from the first person perspective, as if you were the candidate.
   `;
 
-  const messages: ConversationHistory = [...history, { role: 'user', content: TEMPLATE }];
+  const messages: ConversationHistory = [...(history?.length ? history : []), { role: 'user', content: TEMPLATE }];
 
   const res = await callOpenAI(messages);
 
@@ -88,7 +97,7 @@ export const getWorkingExperience = async (
   Describe the candidate's key responsibilities, achievements, and contributions in this role, highlighting their technical expertise and positive impact on the team and the projects they have worked on.
   `;
 
-  const messages: ConversationHistory = [...history, { role: 'user', content: TEMPLATE }];
+  const messages: ConversationHistory = [...(history?.length ? history : []), { role: 'user', content: TEMPLATE }];
 
   const res = await callOpenAI(messages);
 
@@ -114,7 +123,7 @@ export const getEducationExperience = async (
   Describe the candidate's educational experience, emphasizing their strong foundation in computer science and the key coursework that has prepared them for a career in software development.
   `;
 
-  const messages: ConversationHistory = [...history, { role: 'user', content: TEMPLATE }];
+  const messages: ConversationHistory = [...(history?.length ? history : []), { role: 'user', content: TEMPLATE }];
 
   const res = await callOpenAI(messages);
 
