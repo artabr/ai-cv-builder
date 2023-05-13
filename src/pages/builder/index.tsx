@@ -10,13 +10,15 @@ import {
 } from '@ant-design/pro-components';
 import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
-import { useCvContext } from '../../context/CvContext';
 import { Paper } from '../../components/Paper';
 import { useResumeFormContext } from '../../context/ResumeFormContext';
-import { Template } from '../../components/CvViewer/CvViewer.types';
+import { ResumeViewerType, Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { SkillsForm } from '../../components/SkillsForm';
+import { setTemplate } from '../../features/cv/cvSlice';
 
 const { Panel } = Collapse;
 
@@ -24,7 +26,9 @@ const dontDoTemplate =
   'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
 
 export default function BuilderPage() {
-  const { cvData, setCvData } = useCvContext();
+  const cvDataFromRedux = useAppSelector((state) => state.cv);
+  const dispatch = useAppDispatch();
+
   const {
     introSectionFormData: { name, country, job },
     skillsSectionFormData: { skills, hobbies },
@@ -110,8 +114,8 @@ export default function BuilderPage() {
           style={{ width: 200 }}
           placeholder="Choose template"
           options={templatesSelectOptions}
-          onChange={(value) => setCvData({ ...cvData, template: value })}
-          value={cvData.template}
+          onChange={(value) => dispatch(setTemplate(value))}
+          value={cvDataFromRedux.template}
         />
       </div>
       <ProCard gutter={8} style={{ marginBlockStart: 8 }}>
@@ -119,11 +123,9 @@ export default function BuilderPage() {
           <Collapse style={{ width: '100%' }} defaultActiveKey={['1']}>
             <Panel header="Main info" key="1">
               <MainInfoForm
-                fullName={name}
-                address={country}
-                jobTitle={job}
-                skills={skills}
-                hobbies={hobbies}
+                fullName={cvDataFromRedux.personalInfo.fullName}
+                address={cvDataFromRedux.personalInfo.address}
+                jobTitle={cvDataFromRedux.personalInfo.jobTitle}
                 handleSelectChange={handleSelectChange}
                 selectOptions={selectOptions}
               />
@@ -201,11 +203,14 @@ export default function BuilderPage() {
                 </ProFormList>
               </ProForm>
             </Panel>
+            <Panel header="Skills and hobbies" key="4">
+              <SkillsForm skills={cvDataFromRedux.skills} hobbies={cvDataFromRedux.hobbies} />
+            </Panel>
           </Collapse>
         </ProCard>
         <ProCard colSpan={12} layout="center">
           <Paper>
-            <CvViewer cv={cvData} />
+            <CvViewer cv={cvDataFromRedux} />
           </Paper>
         </ProCard>
       </ProCard>

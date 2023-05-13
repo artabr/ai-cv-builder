@@ -6,7 +6,6 @@ import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
 import css from './Modern.module.css';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
 import { ModernHeader } from './ModernHeader/ModernHeader';
-import { useResumeFormContext } from '../../../../context/ResumeFormContext';
 
 type CvViewerProps = {
   cv: ResumeViewerType;
@@ -14,13 +13,6 @@ type CvViewerProps = {
 };
 
 export const Modern = ({ cv, isBlack = false }: CvViewerProps) => {
-  const {
-    workSectionFormData: { employer = '', position = '', dateTime = [] },
-    educationSectionFormData: { institution = '', field = '', studyDateTime = [] },
-    workResultFromAI,
-    educationResultFromAI
-  } = useResumeFormContext();
-
   return (
     <div className={cx(isBlack && css.black)}>
       <div>
@@ -29,21 +21,27 @@ export const Modern = ({ cv, isBlack = false }: CvViewerProps) => {
       <div className={css.mainBlock}>
         <PersonalInfo {...cv.personalInfo} isInline />
         <TextWithHeading heading="Work experience" />
-        <CVExperienceBlock
-          title={employer}
-          subtitle={position}
-          startDate={dateTime[0]}
-          endDate={dateTime[1]}
-          description={workResultFromAI}
-        />
+        {(cv.workExperience || []).map((el) => (
+          <CVExperienceBlock
+            key={el.companyName}
+            title={el.companyName}
+            subtitle={el.position}
+            startDate={el.startDate}
+            endDate={el.endDate}
+            description={el.description}
+          />
+        ))}
         <TextWithHeading heading="Education" />
-        <CVExperienceBlock
-          title={institution}
-          subtitle={field}
-          startDate={studyDateTime[0]}
-          endDate={studyDateTime[1]}
-          description={educationResultFromAI}
-        />
+        {(cv.education || []).map((el) => (
+          <CVExperienceBlock
+            key={el.universityName}
+            title={el.universityName}
+            subtitle={el.speciality}
+            startDate={el.startDate}
+            endDate={el.endDate}
+            description={el.description}
+          />
+        ))}
         <TextWithHeading heading="Skills" />
         <StringArrayViewer items={cv.skills} />
         <TextWithHeading heading="Hobbies" />
