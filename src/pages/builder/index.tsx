@@ -6,8 +6,7 @@ import {
   ProFormTextArea,
   ProForm,
   ProFormList,
-  ProFormGroup,
-  ProFormSelect
+  ProFormGroup
 } from '@ant-design/pro-components';
 import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
@@ -17,6 +16,7 @@ import { useResumeFormContext } from '../../context/ResumeFormContext';
 import { Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
+import { MainInfoForm } from '../../components/MainInfoForm';
 
 const { Panel } = Collapse;
 
@@ -101,18 +101,13 @@ export default function BuilderPage() {
         <ProCard colSpan={12} layout="center">
           <Collapse style={{ width: '100%' }} defaultActiveKey={['1']}>
             <Panel header="Main info" key="1">
-              <ProForm
-                onFinish={async (values) => {
-                  console.log('Received values of form:', values);
-                }}
-                initialValues={{ name, job, country, skills, hobbies }}
-              >
-                <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
-                <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
-                <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
-                <ProFormSelect mode="tags" name="skills" label="Your key skills" placeholder="React, TypeScript" />
-                <ProFormSelect mode="tags" name="hobbies" label="Your hobbies" placeholder="Music, Sports, Traveling" />
-              </ProForm>
+              <MainInfoForm
+                fullName={cvData.personalInfo.fullName}
+                address={cvData.personalInfo.address}
+                jobTitle={cvData.personalInfo.jobTitle}
+                skills={cvData.skills}
+                hobbies={cvData.hobbies}
+              />
             </Panel>
             <Panel header="Work experience" key="2">
               <ProForm
