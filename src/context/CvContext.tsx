@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useMemo } from 'react';
 import merge from 'lodash/merge';
-import { ResumeViewerType } from '../components/CvViewer/CvViewer.types';
+import { ResumeViewerType} from '../components/CvViewer/CvViewer.types';
 import { cvDataMock } from '../components/CvViewer/CvViewer.stub';
 import { useResumeFormContext } from './ResumeFormContext';
 
@@ -53,20 +53,8 @@ export const CvContextProvider = ({ children }: { children: React.ReactNode }) =
         isCurrentEducation: false
       }
     ],
-    skills: skillsSectionFormData.skills?.map((item) => {
-      return {
-        name: item ?? '',
-        // TODO: remove level
-        level: 0
-      };
-    }),
-    hobbies: skillsSectionFormData.hobbies?.map((item) => {
-      return {
-        name: item ?? '',
-        // TODO: remove icon
-        icon: ''
-      };
-    }),
+    skills: skillsSectionFormData.skills?.map((item) => item),
+    hobbies: skillsSectionFormData.hobbies?.map((item) => item),
     additionalBlocks: [
       {
         title: 'More info about me',

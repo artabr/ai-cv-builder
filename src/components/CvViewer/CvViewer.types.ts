@@ -11,25 +11,12 @@ export enum Template {
 export type ResumeViewerType = {
   template?: Template; // ...
   personalInfo: {
+    jobTitle?: string;
     fullName?: string;
-    // or surname and name
-    birthDate?: number; // timestamp
     email?: string;
-    phone?: string;
     address?: string;
     avatar?: string;
-    englishLevel?: string; // A1, A2, B1, B2, C1, C2
-    salaryExpectation?: string;
     isShowAvatar?: boolean;
-    social?: {
-      github?: string;
-      linkedin?: string;
-      facebook?: string;
-      twitter?: string;
-      instagram?: string;
-      youtube?: string;
-      website?: string;
-    };
     description?: string; // richText? or just string
   };
   workExperience?: {
@@ -49,14 +36,8 @@ export type ResumeViewerType = {
     isCurrentEducation: boolean;
     description: string; // richText? or just string
   }[];
-  skills?: {
-    name: string;
-    level: number; // 1-5m or in percent from 0 to 100
-  }[];
-  hobbies?: {
-    name: string;
-    icon: string; // url
-  }[];
+  skills?: string[];
+  hobbies?: string[];
   additionalBlocks?: {
     title: string;
     description: string; // richText? or just string

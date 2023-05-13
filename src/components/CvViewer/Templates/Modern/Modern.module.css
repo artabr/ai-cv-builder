@@ -1,10 +1,4 @@
 .mainBlock {
-  display: grid;
-  grid-template-columns: 1fr 60px;
-  padding: 20px;
-}
-
-.personalInfo {
   padding: 20px;
 }
 
