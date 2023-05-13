@@ -12,39 +12,38 @@ import { useRef } from 'react';
 import { useRouter } from 'next/router';
 import {
   EducationSectionResumeFormData,
-  IntroSectionResumeFormData,
   SkillsSectionResumeFormData,
   useResumeFormContext,
   WorkSectionResumeFormData
 } from '../../context/ResumeFormContext';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
+import { PersonalInfoType, WorkExperienceType } from '../../components/CvViewer/CvViewer.types';
+import { useAppDispatch } from '../../hooks/redux';
+import { addWorkingExperience, setAddress, setFullName, setJob } from '../../features/cv/cvSlice';
+import { setIntroResultFromAI, setWorkResultFromAI } from '../../features/chat/chatSlice';
 
 export default function WizardPage() {
   const formRef = useRef<ProFormInstance>();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const {
-    setIntroSectionFormData,
-    setWorkSectionFormData,
-    setEducationSectionFormData,
-    setSkillsSectionFormData,
-    setIntroResultFromAI,
-    setWorkResultFromAI,
-    setEducationResultFromAI,
-    setSkillsResultFromAI
-  } = useResumeFormContext();
+  const { setEducationSectionFormData, setSkillsSectionFormData, setEducationResultFromAI, setSkillsResultFromAI } =
+    useResumeFormContext();
 
-  const handleIntroStep = async (values: IntroSectionResumeFormData) => {
-    setIntroSectionFormData(values);
-    const introSection = await fetchSectionFromAPI(values, 'intro');
-    setIntroResultFromAI(introSection);
+  const handleIntroStep = async ({ fullName = '', jobTitle = '', address = '' }: PersonalInfoType) => {
+    dispatch(setFullName(fullName));
+    dispatch(setJob(jobTitle));
+    dispatch(setAddress(address));
+    const introSection = await fetchSectionFromAPI({ jobTitle, address }, 'intro');
+    dispatch(setIntroResultFromAI(introSection));
     return true;
   };
 
   const handleWorkStep = async (values: WorkSectionResumeFormData) => {
-    setWorkSectionFormData(values);
-    const workSection = await fetchSectionFromAPI(values, 'work');
-    setWorkResultFromAI(workSection);
+    const { companyName, position, remark, dateTime } = values;
+    dispatch(addWorkingExperience({ id: 1, companyName: companyName ?? '', position: position ?? '', dateTime }));
+    const workSection = await fetchSectionFromAPI({ companyName, position, remark, dateTime }, 'work');
+    dispatch(setWorkResultFromAI(workSection));
     return true;
   };
 
@@ -71,7 +70,7 @@ export default function WizardPage() {
           router.push('/builder');
         }}
       >
-        <StepsForm.StepForm<IntroSectionResumeFormData>
+        <StepsForm.StepForm<PersonalInfoType>
           name="intro"
           title="Introduce yourself"
           onFinish={async (values) => {
@@ -79,9 +78,9 @@ export default function WizardPage() {
             return true;
           }}
         >
-          <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
-          <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
-          <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
+          <ProFormText name="fullName" label="Your full name" width="md" placeholder="John Doe" />
+          <ProFormText name="jobTitle" label="What's your job?" width="md" placeholder="Software Engineer" />
+          <ProFormText name="address" label="Where do you live?" width="md" placeholder="Planet Earth" />
         </StepsForm.StepForm>
         <StepsForm.StepForm<WorkSectionResumeFormData>
           name="work"
@@ -91,7 +90,7 @@ export default function WizardPage() {
             return true;
           }}
         >
-          <ProFormText name="employer" label="Your last employer" width="md" placeholder="EPAM" />
+          <ProFormText name="companyName" label="Your last employer" width="md" placeholder="EPAM" />
           <ProFormText name="position" label="Position on the job" width="md" placeholder="Senior Software Engineer" />
           <ProFormDateRangePicker name="dateTime" label="When did you work there" />
           <ProFormTextArea

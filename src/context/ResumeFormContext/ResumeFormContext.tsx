@@ -7,7 +7,7 @@ export type IntroSectionResumeFormData = {
 };
 
 export type WorkSectionResumeFormData = {
-  employer?: string;
+  companyName?: string;
   position?: string;
   dateTime?: string[];
   remark?: string;

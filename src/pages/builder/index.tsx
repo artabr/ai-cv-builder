@@ -12,7 +12,7 @@ import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { Paper } from '../../components/Paper';
 import { useResumeFormContext } from '../../context/ResumeFormContext';
-import { ResumeViewerType, Template } from '../../components/CvViewer/CvViewer.types';
+import { Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
@@ -30,9 +30,6 @@ export default function BuilderPage() {
   const dispatch = useAppDispatch();
 
   const {
-    introSectionFormData: { name, country, job },
-    skillsSectionFormData: { skills, hobbies },
-    workSectionFormData: { employer, position, dateTime, remark },
     educationSectionFormData: { institution, field, studyDateTime, studyRemark },
     introResultFromAI,
     setIntroResultFromAI,
@@ -148,7 +145,6 @@ export default function BuilderPage() {
                     position: 'bottom',
                     creatorButtonText: 'Add new work experience'
                   }}
-                  initialValue={[{ employer, position, dateTime, remark }]}
                 >
                   <ProFormGroup key="group">
                     <ProFormText name="employer" label="Your last employer" width="md" placeholder="EPAM" />
