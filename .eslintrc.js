@@ -36,6 +36,8 @@ module.exports = {
     'react/destructuring-assignment': 'off',
     'react/function-component-definition': 'off',
     'react/require-default-props': 'off',
-    'jsx-a11y/alt-text': 'off'
+    'jsx-a11y/alt-text': 'off',
+    'no-shadow': 'off',
+    'import/no-extraneous-dependencies': ['error', { devDependencies: true }]
   }
 };
