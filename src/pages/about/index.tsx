@@ -80,7 +80,7 @@ export default function AboutPage() {
               avatar="images/Yauheni_Bykau.png"
               name="Yauheni Bykau "
               mail="zoroo@mail.ru"
-              title="Inspired FE dev"
+              title="Passionate FE dev"
             />
           </div>
         </div>
