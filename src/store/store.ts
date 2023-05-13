@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import cvReducer from '../features/cv/cvSlice';
+import chatReducer from '../features/chat/chatSlice';
 
 export const store = configureStore({
   reducer: {
-    cv: cvReducer
+    cv: cvReducer,
+    chat: chatReducer
   }
 });
 

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { cvDataMock } from '../../components/CvViewer/CvViewer.stub';
+import { Template } from '../../components/CvViewer/CvViewer.types';
 
 const cvSlice = createSlice({
   name: 'cv',
@@ -15,14 +16,21 @@ const cvSlice = createSlice({
     setAddress(state, action: PayloadAction<string>) {
       state.personalInfo.address = action.payload;
     },
+    setIntroResultFromAI(state, action: PayloadAction<string>) {
+      state.personalInfo.description = action.payload;
+    },
     setSkills(state, action: PayloadAction<string[]>) {
       state.skills = action.payload;
     },
     setHobbies(state, action: PayloadAction<string[]>) {
       state.hobbies = action.payload;
+    },
+    setTemplate(state, action: PayloadAction<Template>) {
+      state.template = action.payload;
     }
   }
 });
 
-export const { setFullName, setJob, setAddress, setSkills, setHobbies } = cvSlice.actions;
+export const { setFullName, setJob, setAddress, setIntroResultFromAI, setSkills, setHobbies, setTemplate } =
+  cvSlice.actions;
 export default cvSlice.reducer;

@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { Button, Select, Space } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setFullName, setJob, setAddress } from '../../features/cv/cvSlice';
+import { setFullName, setJob, setAddress, setIntroResultFromAI } from '../../features/cv/cvSlice';
 import { IntroSectionResumeFormData } from '../../context/ResumeFormContext';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
 
@@ -28,6 +28,7 @@ export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
       country: cvDataFromRedux.personalInfo.address
     };
     const introSection = await fetchSectionFromAPI(values, 'intro');
+    dispatch(setIntroResultFromAI(introSection));
     return true;
   };
 

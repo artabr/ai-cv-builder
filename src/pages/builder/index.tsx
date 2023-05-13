@@ -10,15 +10,15 @@ import {
 } from '@ant-design/pro-components';
 import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
-import { useCvContext } from '../../context/CvContext';
 import { Paper } from '../../components/Paper';
 import { useResumeFormContext } from '../../context/ResumeFormContext';
-import { Template } from '../../components/CvViewer/CvViewer.types';
+import { ResumeViewerType, Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SkillsForm } from '../../components/SkillsForm';
+import { setTemplate } from '../../features/cv/cvSlice';
 
 const { Panel } = Collapse;
 
@@ -26,8 +26,8 @@ const dontDoTemplate =
   'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
 
 export default function BuilderPage() {
-  const { cvData, setCvData } = useCvContext();
   const cvDataFromRedux = useAppSelector((state) => state.cv);
+  const dispatch = useAppDispatch();
 
   const {
     introSectionFormData: { name, country, job },
@@ -114,7 +114,7 @@ export default function BuilderPage() {
           style={{ width: 200 }}
           placeholder="Choose template"
           options={templatesSelectOptions}
-          onChange={(value) => setCvData({ ...cvData, template: value })}
+          onChange={(value) => dispatch(setTemplate(value))}
           value={cvDataFromRedux.template}
         />
       </div>
