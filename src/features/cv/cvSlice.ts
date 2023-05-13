@@ -22,6 +22,11 @@ const cvSlice = createSlice({
     addWorkingExperience(state, action: PayloadAction<WorkExperienceType>) {
       state.workExperience = [...state.workExperience, action.payload];
     },
+    updateWorkExperience(state, action: PayloadAction<WorkExperienceType>) {
+      state.workExperience = state?.workExperience?.map((company) => {
+        return company.id === action.payload.id ? { ...company, ...action.payload } : company;
+      });
+    },
     setCompanyName(state, action: PayloadAction<{ id: string | number; companyName: string }>) {
       state.workExperience = state?.workExperience?.map((company) => {
         if (company.id === action.payload.id) {
@@ -64,6 +69,7 @@ export const {
   setAddress,
   setDescription,
   addWorkingExperience,
+  updateWorkExperience,
   setCompanyName,
   setPosition,
   setCompanyDescription,

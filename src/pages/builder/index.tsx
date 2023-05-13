@@ -19,6 +19,7 @@ import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SkillsForm } from '../../components/SkillsForm';
 import { setTemplate } from '../../features/cv/cvSlice';
+import { WorkExperienceForm } from '../../components/WorkExperienceForm';
 
 const { Panel } = Collapse;
 
@@ -128,56 +129,7 @@ export default function BuilderPage() {
               />
             </Panel>
             <Panel header="Work experience" key="2">
-              <ProForm
-                onFinish={async (values) => {
-                  console.log('Received values of form:', values);
-                }}
-                submitter={{
-                  resetButtonProps: {
-                    style: {
-                      display: 'none'
-                    }
-                  },
-                  submitButtonProps: {
-                    style: {
-                      display: 'none'
-                    }
-                  }
-                }}
-              >
-                <Select
-                  placeholder="Customize your experience"
-                  style={{ width: 200, marginBottom: 20 }}
-                  onChange={(value) => handleSelectChange(value, 'workExperience')}
-                  options={selectOptions}
-                />
-                <ProFormList
-                  name="users"
-                  creatorButtonProps={{
-                    position: 'bottom',
-                    creatorButtonText: 'Add new work experience'
-                  }}
-                  initialValue={cvDataFromRedux.workExperience}
-                  copyIconProps={false}
-                >
-                  <ProFormGroup key="group">
-                    <ProFormText name="companyName" label="Your last employer" width="md" placeholder="EPAM" />
-                    <ProFormText
-                      name="position"
-                      label="Position on the job"
-                      width="md"
-                      placeholder="Senior Software Engineer"
-                    />
-                    <ProFormDateRangePicker name="dateTime" label="When did you work there" />
-                    <ProFormTextArea
-                      name="remark"
-                      label="Key points about this job"
-                      width="lg"
-                      placeholder="In short phrases tell us about what you did there"
-                    />
-                  </ProFormGroup>
-                </ProFormList>
-              </ProForm>
+              <WorkExperienceForm workExperience={cvDataFromRedux.workExperience} />{' '}
             </Panel>
             <Panel header="Education" key="3">
               <ProForm
