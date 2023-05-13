@@ -11,6 +11,7 @@ type ModernHeaderProps = {
   fullName?: string;
   isBlack?: boolean;
   className?: string;
+  jobTitle?: string;
 };
 export const ModernHeader = ({
   isBlack = false,
@@ -18,6 +19,7 @@ export const ModernHeader = ({
   isShowAvatar,
   description,
   fullName,
+  jobTitle,
   className
 }: ModernHeaderProps) => {
   return (
@@ -31,6 +33,7 @@ export const ModernHeader = ({
       <Avatar avatar={avatar} isShowAvatar={isShowAvatar} className={css.avatar} />
       <div>
         <h2>{fullName}</h2>
+        {jobTitle && <h3>{jobTitle}</h3>}
         <TextWithHeading text={description} />
       </div>
     </div>
