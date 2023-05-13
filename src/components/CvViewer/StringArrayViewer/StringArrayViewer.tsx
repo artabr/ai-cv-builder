@@ -1,8 +1,8 @@
-type HobbiesProps = {
+type StringArrayViewerProps = {
   items?: string[];
 };
 
-export const StringArrayViewer = ({ items = [] }: HobbiesProps) => {
+export const StringArrayViewer = ({ items = [] }: StringArrayViewerProps) => {
   return (
     <>
       {items.map((el) => (
