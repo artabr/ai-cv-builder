@@ -16,14 +16,12 @@ import { useResumeFormContext } from '../../context/ResumeFormContext';
 import { Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
-import { MainInfoForm } from '../../components/MainInfoForm';
+import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
 
 const { Panel } = Collapse;
 
 const dontDoTemplate =
   'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
-
-type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 
 export default function BuilderPage() {
   const { cvData, setCvData } = useCvContext();
@@ -98,7 +96,7 @@ export default function BuilderPage() {
     }
   };
 
-  const handleChange = async (value: string, context: AIResumeTypes = 'workExperience') => {
+  const handleSelectChange = async (value: string, context: AIResumeTypes = 'workExperience') => {
     setIsWriting(true);
     await addNewContextToAI(value, context);
     setIsWriting(false);
@@ -121,11 +119,13 @@ export default function BuilderPage() {
           <Collapse style={{ width: '100%' }} defaultActiveKey={['1']}>
             <Panel header="Main info" key="1">
               <MainInfoForm
-                fullName={cvData.personalInfo.fullName}
-                address={cvData.personalInfo.address}
-                jobTitle={cvData.personalInfo.jobTitle}
-                skills={cvData.skills}
-                hobbies={cvData.hobbies}
+                fullName={name}
+                address={country}
+                jobTitle={job}
+                skills={skills}
+                hobbies={hobbies}
+                handleSelectChange={handleSelectChange}
+                selectOptions={selectOptions}
               />
             </Panel>
             <Panel header="Work experience" key="2">
@@ -137,7 +137,7 @@ export default function BuilderPage() {
                 <Select
                   placeholder="Customize your experience"
                   style={{ width: 200, marginBottom: 20 }}
-                  onChange={(value) => handleChange(value, 'workExperience')}
+                  onChange={(value) => handleSelectChange(value, 'workExperience')}
                   options={selectOptions}
                 />
                 <ProFormList
@@ -176,7 +176,7 @@ export default function BuilderPage() {
                 <Select
                   placeholder="Customize your experience"
                   style={{ width: 200, marginBottom: 20 }}
-                  onChange={(value) => handleChange(value, 'education')}
+                  onChange={(value) => handleSelectChange(value, 'education')}
                   options={selectOptions}
                 />
                 <ProFormList
