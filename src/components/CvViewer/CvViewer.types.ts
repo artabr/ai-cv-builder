@@ -19,23 +19,23 @@ export type PersonalInfoType = {
 };
 
 export type WorkExperienceType = {
-  id: string | number;
-  companyName: string;
-  position: string; // job title
-  startDate?: number;
-  endDate?: number;
-  dateTime?: string[];
+  id: string;
+  companyName?: string;
+  position?: string; // job title
+  startDate?: string; // american date format
+  endDate?: string; // american date format
   isCurrentWork?: boolean;
   description?: string; // richText? or just string
 };
 
 export type EducationType = {
-  universityName: string;
-  speciality: string;
-  startDate: number; // timestamp
-  endDate: number; // timestamp
-  isCurrentEducation: boolean;
-  description: string; // richText? or just string
+  id: string;
+  universityName?: string;
+  speciality?: string;
+  startDate?: string; // american date format
+  endDate?: string; // american date format
+  isCurrentEducation?: boolean;
+  description?: string; // richText? or just string
 };
 
 export type ResumeViewerType = {
@@ -45,8 +45,5 @@ export type ResumeViewerType = {
   education?: EducationType[];
   skills?: string[];
   hobbies?: string[];
-  additionalBlocks?: {
-    title: string;
-    description: string; // richText? or just string
-  }[];
+  summary?: string;
 };

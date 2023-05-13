@@ -2,11 +2,11 @@ import { TextWithHeading } from '../TextWithHeading/TextWithHeading';
 import css from './CVExperienceBlock.module.css';
 
 type WorkBlockProps = {
-  title: string;
-  subtitle: string;
-  description: string;
-  startDate: number | string; // timestamp
-  endDate: number | string; // timestamp
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  startDate?: string; // american date format
+  endDate?: string; // american date format
 };
 
 export const CVExperienceBlock = ({ title, subtitle, description, startDate = '', endDate = '' }: WorkBlockProps) => {
