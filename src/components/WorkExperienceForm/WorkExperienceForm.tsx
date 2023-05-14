@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   ProForm,
   ProFormDateRangePicker,
@@ -22,7 +22,7 @@ const emptyWorkExperience: WorkExperienceType = {
   remark: ''
 };
 
-export const WorkExperienceForm: FC<WorkExperienceFormProps> = (props) => {
+export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = (props) => {
   const dispatch = useAppDispatch();
   const actionGuard = {
     beforeAddRow: (defaultValue, insertIndex) => {

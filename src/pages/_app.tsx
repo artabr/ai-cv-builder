@@ -6,8 +6,6 @@ import enUs from 'antd/locale/en_US';
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
 import { MainLayout } from '../components';
-import { ResumeFormProvider } from '../context/ResumeFormContext';
-import { CvContextProvider } from '../context/CvContext';
 import { store } from '../store/store';
 
 /**
@@ -38,13 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <ClientOnly>
           <Provider store={store}>
             <ConfigProvider locale={enUs}>
-              <ResumeFormProvider>
-                <CvContextProvider>
-                  <MainLayout>
-                    <Component {...pageProps} />
-                  </MainLayout>
-                </CvContextProvider>
-              </ResumeFormProvider>
+              <MainLayout>
+                <Component {...pageProps} />
+              </MainLayout>
             </ConfigProvider>
           </Provider>
         </ClientOnly>

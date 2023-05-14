@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React from 'react';
 import {
   ProForm,
   ProFormDateRangePicker,
@@ -22,7 +22,7 @@ const emptyEducation: EducationType = {
   remark: ''
 };
 
-export const EducationForm: FC<EducationFormProps> = (props) => {
+export const EducationForm: React.FC<EducationFormProps> = (props) => {
   const dispatch = useAppDispatch();
   const actionGuard = {
     beforeAddRow: (defaultValue, insertIndex) => {

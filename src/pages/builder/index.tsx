@@ -3,7 +3,6 @@ import { ProCard } from '@ant-design/pro-components';
 import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { Paper } from '../../components/Paper';
-import { useResumeFormContext } from '../../context/ResumeFormContext';
 import { Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
@@ -23,19 +22,10 @@ export default function BuilderPage() {
   const cvDataFromRedux = useAppSelector((state) => state.cv);
   const dispatch = useAppDispatch();
 
-  const {
-    educationSectionFormData: { institution, field, studyDateTime, studyRemark },
-    introResultFromAI,
-    setIntroResultFromAI,
-    workResultFromAI,
-    setWorkResultFromAI,
-    educationResultFromAI,
-    setEducationResultFromAI
-  } = useResumeFormContext();
   const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
-    profile: [{ role: 'assistant', content: introResultFromAI ?? '' }],
-    workExperience: [{ role: 'assistant', content: workResultFromAI ?? '' }],
-    education: [{ role: 'assistant', content: educationResultFromAI ?? '' }]
+    profile: [{ role: 'assistant', content: '' }],
+    workExperience: [{ role: 'assistant', content: '' }],
+    education: [{ role: 'assistant', content: '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -78,13 +68,13 @@ export default function BuilderPage() {
     // @ts-ignore
     switch (context) {
       case 'workExperience':
-        setWorkResultFromAI(answer || '');
+        // setWorkResultFromAI(answer || '');
         break;
       case 'education':
-        setEducationResultFromAI(answer || '');
+        // setEducationResultFromAI(answer || '');
         break;
       case 'profile':
-        setIntroResultFromAI(answer || '');
+        // setIntroResultFromAI(answer || '');
         break;
       default:
         break;

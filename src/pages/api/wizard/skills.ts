@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getIntroSectionFromAI, getSkillsSectionFromAI } from '../../../api/server/wizard';
+import { getSkillsSectionFromAI } from '../../../api/server/wizard';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { skills, languages } = req.body;
