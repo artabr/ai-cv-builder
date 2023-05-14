@@ -5,9 +5,10 @@ export const avatar =
 export const cvDataMock: ResumeViewerType = {
   template: Template.Modern,
   personalInfo: {
-    fullName: 'Bykau Yauheni',
-    email: 'example@example.com',
-    address: 'Brest, Belarus',
+    fullName: 'Jon Doe',
+    email: 'jondoe@example.com',
+    address: 'USA, New York',
+    jobTitle: 'Software Engineer',
     avatar: avatar as string,
     isShowAvatar: true,
     description: 'Software Engineer with 10+ years of experience in the IT industry.'
@@ -16,35 +17,35 @@ export const cvDataMock: ResumeViewerType = {
     {
       id: '0',
       companyName: 'EPAM',
-      position: 'Frontend Developer',
+      position: 'Software Engineer',
       dateTime: ['2015-05-11', '2023-05-12'],
       startDate: '2023-05-12',
       endDate: '2015-05-11',
       isCurrentWork: true,
-      description: 'Description of a great developer.'
+      remark: 'Description of a great engineer.'
     },
     {
       id: '1',
       companyName: 'Google',
-      position: 'Frontend Developer',
+      position: 'Software Engineer',
       dateTime: ['2000-05-12', '2015-05-11'],
       startDate: '2015-05-11',
       endDate: '2000-05-12',
-      description: 'Description of a great developer.'
+      remark: 'Description of a great engineer.'
     }
   ],
   education: [
     {
       id: '0',
-      universityName: 'Grodno State Medical University',
-      speciality: 'Doctor',
+      universityName: 'MIT',
+      speciality: 'Data Scientist',
       dateTime: ['2015-05-12', '2023-05-12'],
       startDate: '2023-05-12',
       endDate: '2015-05-12',
-      description: 'Description of a great doctor.'
+      remark: 'Description of a great data scientist.'
     }
   ],
-  skills: ['React', 'Next Js'],
-  hobbies: ['Yoga', 'Gym'],
+  skills: ['React', 'NextJS', 'TypeScript', 'JavaScript', 'HTML', 'CSS'],
+  hobbies: ['Yoga', 'Gym', 'Travel'],
   summary: 'The perfect description about me.'
 };
