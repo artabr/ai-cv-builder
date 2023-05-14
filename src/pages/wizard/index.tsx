@@ -10,54 +10,88 @@ import {
 import { message } from 'antd';
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
-import {
-  EducationSectionResumeFormData,
-  SkillsSectionResumeFormData,
-  useResumeFormContext,
-  WorkSectionResumeFormData
-} from '../../context/ResumeFormContext';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
-import { PersonalInfoType, WorkExperienceType } from '../../components/CvViewer/CvViewer.types';
 import { useAppDispatch } from '../../hooks/redux';
-import { addWorkExperience, setAddress, setFullName, setJob } from '../../features/cv/cvSlice';
-import { setIntroResultFromAI, setWorkResultFromAI } from '../../features/chat/chatSlice';
+import {
+  addEducation,
+  addWorkExperience,
+  setAddress,
+  setFullName,
+  setJob,
+  setSkills,
+  setHobbies,
+  setSummary,
+  setDescription
+} from '../../features/cv/cvSlice';
+
+export type IntroSectionResumeFormData = {
+  fullName?: string;
+  jobTitle?: string;
+  address?: string;
+};
+
+export type WorkSectionResumeFormData = {
+  companyName?: string;
+  position?: string;
+  dateTime?: string[];
+  remark?: string;
+};
+
+export type EducationSectionResumeFormData = {
+  institution?: string;
+  field?: string;
+  studyDateTime?: string[];
+  studyRemark?: string;
+};
+
+export type SkillsSectionResumeFormData = {
+  skills?: string[];
+  hobbies?: string[];
+};
 
 export default function WizardPage() {
   const formRef = useRef<ProFormInstance>();
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { setEducationSectionFormData, setSkillsSectionFormData, setEducationResultFromAI, setSkillsResultFromAI } =
-    useResumeFormContext();
-
-  const handleIntroStep = async ({ fullName = '', jobTitle = '', address = '' }: PersonalInfoType) => {
+  const handleIntroStep = async ({ fullName = '', jobTitle = '', address = '' }: IntroSectionResumeFormData) => {
     dispatch(setFullName(fullName));
     dispatch(setJob(jobTitle));
     dispatch(setAddress(address));
     const introSection = await fetchSectionFromAPI({ jobTitle, address }, 'intro');
-    dispatch(setIntroResultFromAI(introSection));
+    dispatch(setDescription(introSection));
     return true;
   };
 
   const handleWorkStep = async (values: WorkSectionResumeFormData) => {
-    const { companyName, position, remark, dateTime } = values;
-    dispatch(addWorkExperience({ id: 1, companyName: companyName ?? '', position: position ?? '', dateTime }));
+    const { companyName = '', position = '', remark = '', dateTime } = values;
     const workSection = await fetchSectionFromAPI({ companyName, position, remark, dateTime }, 'work');
-    dispatch(setWorkResultFromAI(workSection));
+    dispatch(addWorkExperience({ id: '0', companyName, position, remark, dateTime, description: workSection }));
     return true;
   };
 
   const handleEducationStep = async (values: EducationSectionResumeFormData) => {
-    setEducationSectionFormData(values);
+    const { institution = '', field = '', studyRemark = '', studyDateTime } = values;
     const educationSection = await fetchSectionFromAPI(values, 'education');
-    setEducationResultFromAI(educationSection);
+    dispatch(
+      addEducation({
+        id: '0',
+        universityName: institution,
+        speciality: field,
+        remark: studyRemark,
+        dateTime: studyDateTime,
+        description: educationSection
+      })
+    );
     return true;
   };
 
   const handleSkillsStep = async (values: SkillsSectionResumeFormData) => {
-    setSkillsSectionFormData(values);
+    const { skills, hobbies } = values;
+    dispatch(setSkills(skills ?? []));
+    dispatch(setHobbies(hobbies ?? []));
     const skillsSection = await fetchSectionFromAPI(values, 'skills');
-    setSkillsResultFromAI(skillsSection);
+    dispatch(setSummary(skillsSection));
     return true;
   };
 
@@ -70,7 +104,7 @@ export default function WizardPage() {
           router.push('/builder');
         }}
       >
-        <StepsForm.StepForm<PersonalInfoType>
+        <StepsForm.StepForm<IntroSectionResumeFormData>
           name="intro"
           title="Introduce yourself"
           onFinish={async (values) => {

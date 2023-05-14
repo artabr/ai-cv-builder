@@ -47,6 +47,9 @@ const cvSlice = createSlice({
     setHobbies(state, action: PayloadAction<string[]>) {
       state.hobbies = action.payload;
     },
+    setSummary(state, action: PayloadAction<string>) {
+      state.summary = action.payload;
+    },
     setTemplate(state, action: PayloadAction<Template>) {
       state.template = action.payload;
     }
@@ -66,6 +69,7 @@ export const {
   removeEducation,
   setSkills,
   setHobbies,
+  setSummary,
   setTemplate
 } = cvSlice.actions;
 export default cvSlice.reducer;
