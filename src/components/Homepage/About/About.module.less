@@ -7,7 +7,7 @@
     height: 100%;
     position: relative;
     margin: auto;
-    padding: 128px 24px;
+    padding: 64px 0;
     will-change: transform;
     display: flex;
     flex-direction: row;
@@ -17,7 +17,7 @@
     .image {
       height: 100%;
       transform-origin: top;
-      padding: 0 32px;
+      padding: 0 16px 0 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -33,7 +33,7 @@
     }
 
     .text {
-      padding: 0 32px;
+      padding: 0 0 0 16px;
       height: 100%;
 
       &Content,
@@ -42,19 +42,20 @@
       }
 
       &Title {
-        font-size: 32px;
+        font-size: 44px;
         font-weight: normal;
         color: #404040;
       }
 
       &Content {
         margin-top: 20px;
+        font-size: 18px;
       }
     }
   }
 }
 
-@media screen and (max-width: 639px) {
+@media screen and (max-width: 767px) {
   .container {
     .content {
       padding: 56px 24px;
@@ -97,7 +98,7 @@
 
         &Title {
           margin: 32px auto 16px;
-          font-size: 24px;
+          font-size: 30px;
         }
       }
     }

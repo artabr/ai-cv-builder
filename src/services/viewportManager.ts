@@ -6,6 +6,7 @@ export enum ResolutionTypes {
   DESKTOP = 1439,
   TABLET = 1279,
   TABLET_SMALL = 1023,
+  TABLET_SMALLEST = 767,
   MOBILE = 639,
   MOBILE_SMALL = 479,
   MOBILE_SMALLEST = 320
@@ -90,15 +91,6 @@ export const useViewportDetect = (defaultViewport = 0) => {
     // current viewport width
     windowWidth,
 
-    // 320 (MOBILE_SMALLEST) >= windowWidth
-    isMobileSmallest: ResolutionTypes.MOBILE_SMALLEST >= windowWidth,
-
-    // 479 (MOBILE_SMALL) >= windowWidth
-    isMobileSmall: ResolutionTypes.MOBILE_SMALL >= windowWidth,
-
-    // RANGE 320 (MOBILE_SMALLEST) <= windowWidth <= 479 (MOBILE_SMALL)
-    isMobileSmallStrict: ResolutionTypes.MOBILE_SMALL >= windowWidth && ResolutionTypes.MOBILE_SMALLEST <= windowWidth,
-
     // 639 (MOBILE) >= windowWidth
     isMobile: ResolutionTypes.MOBILE >= windowWidth,
 
@@ -107,6 +99,9 @@ export const useViewportDetect = (defaultViewport = 0) => {
 
     // RANGE: 480 (MOBILE_SMALL) < windowWidth <= 639 (MOBILE)
     isMobileLandscapeStrict: ResolutionTypes.MOBILE >= windowWidth && ResolutionTypes.MOBILE_SMALL < windowWidth,
+
+    // 1023 (TABLET_SMALL) >= windowWidth
+    isTabletSmallest: ResolutionTypes.TABLET_SMALLEST >= windowWidth,
 
     // 1023 (TABLET_SMALL) >= windowWidth
     isTabletSmall: ResolutionTypes.TABLET_SMALL >= windowWidth,
