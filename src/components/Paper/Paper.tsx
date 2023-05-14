@@ -1,3 +1,11 @@
 import css from './Paper.module.less';
 
-export const Paper = (props: React.PropsWithChildren) => <div className={css.paper}>{props.children}</div>;
+type PaperProps = React.PropsWithChildren & {
+  targetRef?: React.RefObject<HTMLDivElement>;
+};
+
+export const Paper = ({ targetRef, children }: PaperProps) => (
+  <div className={css.paper} ref={targetRef}>
+    {children}
+  </div>
+);

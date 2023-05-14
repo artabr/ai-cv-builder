@@ -10,11 +10,11 @@ type CvViewerProps = BaseCVReviewTemplateProps & {
   isReverse?: boolean;
 };
 
-export const Basic = ({ cv, isReverse = false, targetRef }: CvViewerProps) => {
+export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
   const { personalInfo, workExperience, education, skills, hobbies } = cv;
 
   return (
-    <div className={isReverse ? css.wrapperReverse : css.wrapper} ref={targetRef}>
+    <div className={isReverse ? css.wrapperReverse : css.wrapper}>
       <div className={css.leftBlock}>
         <TextWithHeading heading="Description" text={personalInfo.description} />
         <TextWithHeading heading="Work experience" />

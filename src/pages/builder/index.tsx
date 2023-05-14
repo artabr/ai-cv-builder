@@ -16,6 +16,7 @@ import { SkillsForm } from '../../components/SkillsForm';
 import { setTemplate } from '../../features/cv/cvSlice';
 import { WorkExperienceForm } from '../../components/WorkExperienceForm';
 import { EducationForm } from '../../components/EducationForm';
+import { generateHtmlToConvert } from './builder.utils';
 
 import './builder.less';
 
@@ -105,7 +106,9 @@ export default function BuilderPage() {
         const converToPdfAsync = async () => {
           setIsLoading(true);
 
-          const result = await convertToPdf(htmlOftemplate);
+          const htmlToConvert = generateHtmlToConvert(htmlOftemplate);
+
+          const result = await convertToPdf(htmlToConvert);
 
           if (result) {
             const link = downloadLinkRef.current;
@@ -157,8 +160,8 @@ export default function BuilderPage() {
           </Collapse>
         </ProCard>
         <ProCard colSpan={12} layout="center">
-          <Paper>
-            <CvViewer cv={cvDataFromRedux} targetRef={targetRef} />
+          <Paper targetRef={targetRef}>
+            <CvViewer cv={cvDataFromRedux} />
           </Paper>
         </ProCard>
       </ProCard>
