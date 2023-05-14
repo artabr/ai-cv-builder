@@ -43,12 +43,7 @@ export const getWorkSectionFromAI = async (
   return completion.data.choices[0].message?.content;
 };
 
-export const getEducationSectionFromAI = async (
-  universityName?: string,
-  speciality?: string,
-  dateTime?: string[],
-  remark?: string
-) => {
+export const getEducationSectionFromAI = async (universityName = '', speciality = '', dateTime = [], remark = '') => {
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     messages: [

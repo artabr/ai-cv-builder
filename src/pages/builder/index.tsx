@@ -169,19 +169,18 @@ export default function BuilderPage() {
           </Collapse>
         </ProCard>
         <ProCard colSpan={12} layout="center">
-          <Paper targetRef={targetRef}>
-            <CvViewer cv={cvDataFromRedux} />
-          </Paper>
+          <div>
+            <Paper targetRef={targetRef}>
+              <CvViewer cv={cvDataFromRedux} />
+            </Paper>
+            <Space align="end">
+              <Button type="primary" icon={<DownloadOutlined />} onClick={handleDownloadPdfClick}>
+                {isLoading ? 'Downloading...' : 'Download PDF'}
+              </Button>
+              <Button style={{ visibility: 'hidden' }} href="" target="_blank" ref={downloadLinkRef} />
+            </Space>
+          </div>
         </ProCard>
-      </ProCard>
-
-      <ProCard colspan={12} gutter={8} style={{ marginBlockStart: 8 }}>
-        <Space align="end">
-          <Button type="primary" icon={<DownloadOutlined />} onClick={handleDownloadPdfClick}>
-            {isLoading ? 'Downloading...' : 'Download PDF'}
-          </Button>
-          <Button style={{ visibility: 'hidden' }} href="" target="_blank" ref={downloadLinkRef} />
-        </Space>
       </ProCard>
     </div>
   );
