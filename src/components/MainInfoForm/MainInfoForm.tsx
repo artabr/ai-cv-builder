@@ -6,7 +6,7 @@ import { setFullName, setJob, setAddress, setDescription } from '../../features/
 import { fetchSectionFromAPI } from '../../api/client/wizard';
 import { IntroSectionResumeFormData } from '../../models/types';
 
-export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
+export type AIResumeTypes = 'workExperience' | 'education' | 'profile' | 'skills';
 
 type MainInfoFormProps = {
   jobTitle?: string;
@@ -72,12 +72,6 @@ export const MainInfoForm: React.FC<MainInfoFormProps> = (props) => {
         }
       }}
     >
-      <Select
-        placeholder="Customize your experience"
-        style={{ width: 200, marginBottom: 20 }}
-        onChange={(value) => props.handleSelectChange(value, 'profile')}
-        options={props.selectOptions}
-      />
       <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
       <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
       <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
@@ -87,6 +81,12 @@ export const MainInfoForm: React.FC<MainInfoFormProps> = (props) => {
             Regenerate description
           </Button>
         )}
+        <Select
+          placeholder="Customize your experience"
+          style={{ width: 200 }}
+          onChange={(value) => props.handleSelectChange(value, 'profile')}
+          options={props.selectOptions}
+        />
       </Space>
     </ProForm>
   );

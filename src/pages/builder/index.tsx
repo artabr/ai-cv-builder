@@ -13,26 +13,27 @@ import { Template } from '../../components/CvViewer/CvViewer.types';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SkillsForm } from '../../components/SkillsForm';
-import { setTemplate } from '../../features/cv/cvSlice';
+import { setDescription, setSummary, setTemplate } from '../../features/cv/cvSlice';
 import { WorkExperienceForm } from '../../components/WorkExperienceForm';
 import { EducationForm } from '../../components/EducationForm';
-import { generateHtmlToConvert } from './builder.utils';
+import { generateHtmlToConvert } from '../../utils/builder.utils';
 
 import './builder.less';
 
 const { Panel } = Collapse;
 
 const dontDoTemplate =
-  'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text:';
+  'Please rewrite the following text with slight changes and RETURN ONLY THE REVISED TEXT and dont write me Revised Text: or Original text: ';
 
 export default function BuilderPage() {
   const cvDataFromRedux = useAppSelector((state) => state.cv);
   const dispatch = useAppDispatch();
 
   const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
-    profile: [{ role: 'assistant', content: '' }],
+    profile: [{ role: 'assistant', content: cvDataFromRedux.personalInfo.description || '' }],
     workExperience: [{ role: 'assistant', content: '' }],
-    education: [{ role: 'assistant', content: '' }]
+    education: [{ role: 'assistant', content: '' }],
+    skills: [{ role: 'assistant', content: cvDataFromRedux?.summary || '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -81,7 +82,10 @@ export default function BuilderPage() {
         // setEducationResultFromAI(answer || '');
         break;
       case 'profile':
-        // setIntroResultFromAI(answer || '');
+        dispatch(setDescription(answer || ''));
+        break;
+      case 'skills':
+        dispatch(setSummary(answer || ''));
         break;
       default:
         break;
@@ -155,7 +159,12 @@ export default function BuilderPage() {
               <EducationForm education={cvDataFromRedux.education} />
             </Panel>
             <Panel header="Skills and hobbies" key="4">
-              <SkillsForm skills={cvDataFromRedux.skills} hobbies={cvDataFromRedux.hobbies} />
+              <SkillsForm
+                skills={cvDataFromRedux.skills}
+                hobbies={cvDataFromRedux.hobbies}
+                handleSelectChange={handleSelectChange}
+                selectOptions={selectOptions}
+              />
             </Panel>
           </Collapse>
         </ProCard>
