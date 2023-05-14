@@ -54,5 +54,4 @@ export type ResumeViewerType = {
 
 export type BaseCVReviewTemplateProps = {
   cv: ResumeViewerType;
-  targetRef: React.RefObject<HTMLDivElement>;
 };

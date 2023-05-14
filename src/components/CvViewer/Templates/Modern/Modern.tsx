@@ -11,9 +11,9 @@ type CvViewerProps = BaseCVReviewTemplateProps & {
   isBlack?: boolean;
 };
 
-export const Modern = ({ cv, isBlack = false, targetRef }: CvViewerProps) => {
+export const Modern = ({ cv, isBlack = false }: CvViewerProps) => {
   return (
-    <div className={cx(isBlack && css.black)} ref={targetRef}>
+    <div className={cx(isBlack && css.black)}>
       <div>
         <ModernHeader {...cv.personalInfo} isBlack={isBlack} />
       </div>

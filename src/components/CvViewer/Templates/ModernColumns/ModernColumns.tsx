@@ -11,9 +11,9 @@ type ModernColumnsProps = BaseCVReviewTemplateProps & {
   isBlack?: boolean;
 };
 
-export const ModernColumns = ({ cv, isBlack = false, targetRef }: ModernColumnsProps) => {
+export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
   return (
-    <div className={cx(isBlack && css.black)} ref={targetRef}>
+    <div className={cx(isBlack && css.black)}>
       <div>
         <ModernHeader
           {...cv.personalInfo}
