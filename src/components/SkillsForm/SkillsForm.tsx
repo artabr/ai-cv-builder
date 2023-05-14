@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { ProForm, ProFormSelect } from '@ant-design/pro-components';
 import { Button, Space } from 'antd';
 import { useAppDispatch } from '../../hooks/redux';
@@ -9,7 +9,7 @@ type SkillsFormProps = {
   hobbies?: string[];
 };
 
-export const SkillsForm: FC<SkillsFormProps> = (props) => {
+export const SkillsForm: React.FC<SkillsFormProps> = (props) => {
   const [skillsEdited, setSkillsEdited] = useState(false);
   const dispatch = useAppDispatch();
 

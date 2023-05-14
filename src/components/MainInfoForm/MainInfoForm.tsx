@@ -1,10 +1,10 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { Button, Select, Space } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import { setFullName, setJob, setAddress, setIntroResultFromAI } from '../../features/cv/cvSlice';
-import { IntroSectionResumeFormData } from '../../context/ResumeFormContext';
+import { setFullName, setJob, setAddress, setDescription } from '../../features/cv/cvSlice';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
+import { IntroSectionResumeFormData } from '../../models/types';
 
 export type AIResumeTypes = 'workExperience' | 'education' | 'profile';
 
@@ -16,19 +16,19 @@ type MainInfoFormProps = {
   selectOptions: { value: string; label: string }[];
 };
 
-export const MainInfoForm: FC<MainInfoFormProps> = (props) => {
+export const MainInfoForm: React.FC<MainInfoFormProps> = (props) => {
   const [infoEdited, setInfoEdited] = useState(false);
   const dispatch = useAppDispatch();
   const cvDataFromRedux = useAppSelector((state) => state.cv);
 
   const handleIntroStep = async () => {
     const values: IntroSectionResumeFormData = {
-      name: cvDataFromRedux.personalInfo.fullName,
-      job: cvDataFromRedux.personalInfo.jobTitle,
-      country: cvDataFromRedux.personalInfo.address
+      fullName: cvDataFromRedux.personalInfo.fullName,
+      jobTitle: cvDataFromRedux.personalInfo.jobTitle,
+      address: cvDataFromRedux.personalInfo.address
     };
     const introSection = await fetchSectionFromAPI(values, 'intro');
-    dispatch(setIntroResultFromAI(introSection));
+    dispatch(setDescription(introSection));
     return true;
   };
 

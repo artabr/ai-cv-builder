@@ -8,38 +8,46 @@ export enum Template {
   ModernColumnBlack = 'modern column black'
 }
 
+export type PersonalInfoType = {
+  jobTitle?: string;
+  fullName?: string;
+  email?: string;
+  address?: string;
+  avatar?: string;
+  isShowAvatar?: boolean;
+  description?: string;
+};
+
+export type WorkExperienceType = {
+  id: string;
+  companyName?: string;
+  position?: string;
+  dateTime?: string[]; // american date format
+  startDate?: string; // american date format
+  endDate?: string; // american date format
+  isCurrentWork?: boolean;
+  description?: string;
+  remark?: string;
+};
+
+export type EducationType = {
+  id: string;
+  universityName?: string;
+  speciality?: string;
+  dateTime?: string[]; // american date format
+  startDate?: string; // american date format
+  endDate?: string; // american date format
+  isCurrentEducation?: boolean;
+  description?: string;
+  remark?: string;
+};
+
 export type ResumeViewerType = {
   template?: Template; // ...
-  personalInfo: {
-    jobTitle?: string;
-    fullName?: string;
-    email?: string;
-    address?: string;
-    avatar?: string;
-    isShowAvatar?: boolean;
-    description?: string; // richText? or just string
-  };
-  workExperience?: {
-    companyName: string;
-    position: string; // job title
-    adress: string;
-    startDate: number; // timestamp
-    endDate: number; // timestamp
-    isCurrentWork: boolean;
-    description: string; // richText? or just string
-  }[];
-  education?: {
-    universityName: string;
-    speciality: string;
-    startDate: number; // timestamp
-    endDate: number; // timestamp
-    isCurrentEducation: boolean;
-    description: string; // richText? or just string
-  }[];
-  skills?: string[];
-  hobbies?: string[];
-  additionalBlocks?: {
-    title: string;
-    description: string; // richText? or just string
-  }[];
+  personalInfo: PersonalInfoType;
+  workExperience: WorkExperienceType[];
+  education: EducationType[];
+  skills: string[];
+  hobbies: string[];
+  summary?: string;
 };

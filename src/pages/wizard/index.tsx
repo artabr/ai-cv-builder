@@ -10,55 +10,69 @@ import {
 import { message } from 'antd';
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
+import { fetchSectionFromAPI } from '../../api/client/wizard';
+import { useAppDispatch } from '../../hooks/redux';
+import {
+  addEducation,
+  addWorkExperience,
+  setAddress,
+  setFullName,
+  setJob,
+  setSkills,
+  setHobbies,
+  setSummary,
+  setDescription
+} from '../../features/cv/cvSlice';
 import {
   EducationSectionResumeFormData,
   IntroSectionResumeFormData,
   SkillsSectionResumeFormData,
-  useResumeFormContext,
   WorkSectionResumeFormData
-} from '../../context/ResumeFormContext';
-import { fetchSectionFromAPI } from '../../api/client/wizard';
+} from '../../models/types';
 
 export default function WizardPage() {
   const formRef = useRef<ProFormInstance>();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
-  const {
-    setIntroSectionFormData,
-    setWorkSectionFormData,
-    setEducationSectionFormData,
-    setSkillsSectionFormData,
-    setIntroResultFromAI,
-    setWorkResultFromAI,
-    setEducationResultFromAI,
-    setSkillsResultFromAI
-  } = useResumeFormContext();
-
-  const handleIntroStep = async (values: IntroSectionResumeFormData) => {
-    setIntroSectionFormData(values);
-    const introSection = await fetchSectionFromAPI(values, 'intro');
-    setIntroResultFromAI(introSection);
+  const handleIntroStep = async ({ fullName = '', jobTitle = '', address = '' }: IntroSectionResumeFormData) => {
+    dispatch(setFullName(fullName));
+    dispatch(setJob(jobTitle));
+    dispatch(setAddress(address));
+    const introSection = await fetchSectionFromAPI({ jobTitle, address }, 'intro');
+    dispatch(setDescription(introSection));
     return true;
   };
 
   const handleWorkStep = async (values: WorkSectionResumeFormData) => {
-    setWorkSectionFormData(values);
-    const workSection = await fetchSectionFromAPI(values, 'work');
-    setWorkResultFromAI(workSection);
+    const { companyName = '', position = '', remark = '', dateTime } = values;
+    const workSection = await fetchSectionFromAPI({ companyName, position, remark, dateTime }, 'work');
+    dispatch(addWorkExperience({ id: '0', companyName, position, remark, dateTime, description: workSection }));
     return true;
   };
 
   const handleEducationStep = async (values: EducationSectionResumeFormData) => {
-    setEducationSectionFormData(values);
+    const { institution = '', field = '', studyRemark = '', studyDateTime } = values;
     const educationSection = await fetchSectionFromAPI(values, 'education');
-    setEducationResultFromAI(educationSection);
+    dispatch(
+      addEducation({
+        id: '0',
+        universityName: institution,
+        speciality: field,
+        remark: studyRemark,
+        dateTime: studyDateTime,
+        description: educationSection
+      })
+    );
     return true;
   };
 
   const handleSkillsStep = async (values: SkillsSectionResumeFormData) => {
-    setSkillsSectionFormData(values);
+    const { skills, hobbies } = values;
+    dispatch(setSkills(skills ?? []));
+    dispatch(setHobbies(hobbies ?? []));
     const skillsSection = await fetchSectionFromAPI(values, 'skills');
-    setSkillsResultFromAI(skillsSection);
+    dispatch(setSummary(skillsSection));
     return true;
   };
 
@@ -66,7 +80,7 @@ export default function WizardPage() {
     <ProCard>
       <StepsForm
         formRef={formRef}
-        onFinish={async (values) => {
+        onFinish={async () => {
           message.success('Success!');
           router.push('/builder');
         }}
@@ -79,9 +93,9 @@ export default function WizardPage() {
             return true;
           }}
         >
-          <ProFormText name="name" label="Your name" width="md" placeholder="John Doe" />
-          <ProFormText name="job" label="What's your job?" width="md" placeholder="Software Engineer" />
-          <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
+          <ProFormText name="fullName" label="Your full name" width="md" placeholder="John Doe" />
+          <ProFormText name="jobTitle" label="What's your job?" width="md" placeholder="Software Engineer" />
+          <ProFormText name="address" label="Where do you live?" width="md" placeholder="Planet Earth" />
         </StepsForm.StepForm>
         <StepsForm.StepForm<WorkSectionResumeFormData>
           name="work"
@@ -91,7 +105,7 @@ export default function WizardPage() {
             return true;
           }}
         >
-          <ProFormText name="employer" label="Your last employer" width="md" placeholder="EPAM" />
+          <ProFormText name="companyName" label="Your last employer" width="md" placeholder="EPAM" />
           <ProFormText name="position" label="Position on the job" width="md" placeholder="Senior Software Engineer" />
           <ProFormDateRangePicker name="dateTime" label="When did you work there" />
           <ProFormTextArea

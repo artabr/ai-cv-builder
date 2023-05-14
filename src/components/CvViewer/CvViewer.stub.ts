@@ -10,35 +10,41 @@ export const cvDataMock: ResumeViewerType = {
     address: 'Brest, Belarus',
     avatar: avatar as string,
     isShowAvatar: true,
-    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`
+    description: 'Software Engineer with 10+ years of experience in the IT industry.'
   },
   workExperience: [
     {
+      id: '0',
       companyName: 'EPAM',
       position: 'Frontend Developer',
-      adress: 'The USA, NY',
-      startDate: 1683619227518,
-      endDate: 1683619227518,
+      dateTime: ['2015-05-11', '2023-05-12'],
+      startDate: '2023-05-12',
+      endDate: '2015-05-11',
       isCurrentWork: true,
-      description: `t is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`
+      description: 'Description of a great developer.'
+    },
+    {
+      id: '1',
+      companyName: 'Google',
+      position: 'Frontend Developer',
+      dateTime: ['2000-05-12', '2015-05-11'],
+      startDate: '2015-05-11',
+      endDate: '2000-05-12',
+      description: 'Description of a great developer.'
     }
   ],
   education: [
     {
+      id: '0',
       universityName: 'Grodno State Medical University',
       speciality: 'Doctor',
-      startDate: 1683619227518,
-      endDate: 1683619227518,
-      isCurrentEducation: false,
-      description: `Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.`
+      dateTime: ['2015-05-12', '2023-05-12'],
+      startDate: '2023-05-12',
+      endDate: '2015-05-12',
+      description: 'Description of a great doctor.'
     }
   ],
   skills: ['React', 'Next Js'],
   hobbies: ['Yoga', 'Gym'],
-  additionalBlocks: [
-    {
-      title: 'Additional block title',
-      description: `There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.`
-    }
-  ]
+  summary: 'The perfect description about me.'
 };

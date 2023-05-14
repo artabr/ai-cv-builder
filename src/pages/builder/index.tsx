@@ -1,24 +1,17 @@
 import { useState } from 'react';
-import {
-  ProCard,
-  ProFormDateRangePicker,
-  ProFormText,
-  ProFormTextArea,
-  ProForm,
-  ProFormList,
-  ProFormGroup
-} from '@ant-design/pro-components';
+import { ProCard } from '@ant-design/pro-components';
 import { Collapse, Select } from 'antd';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { Paper } from '../../components/Paper';
-import { useResumeFormContext } from '../../context/ResumeFormContext';
-import { ResumeViewerType, Template } from '../../components/CvViewer/CvViewer.types';
+import { Template } from '../../components/CvViewer/CvViewer.types';
 import { addContext, ConversationHistory } from '../../api/api';
 import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SkillsForm } from '../../components/SkillsForm';
 import { setTemplate } from '../../features/cv/cvSlice';
+import { WorkExperienceForm } from '../../components/WorkExperienceForm';
+import { EducationForm } from '../../components/EducationForm';
 
 const { Panel } = Collapse;
 
@@ -29,22 +22,10 @@ export default function BuilderPage() {
   const cvDataFromRedux = useAppSelector((state) => state.cv);
   const dispatch = useAppDispatch();
 
-  const {
-    introSectionFormData: { name, country, job },
-    skillsSectionFormData: { skills, hobbies },
-    workSectionFormData: { employer, position, dateTime, remark },
-    educationSectionFormData: { institution, field, studyDateTime, studyRemark },
-    introResultFromAI,
-    setIntroResultFromAI,
-    workResultFromAI,
-    setWorkResultFromAI,
-    educationResultFromAI,
-    setEducationResultFromAI
-  } = useResumeFormContext();
   const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
-    profile: [{ role: 'assistant', content: introResultFromAI ?? '' }],
-    workExperience: [{ role: 'assistant', content: workResultFromAI ?? '' }],
-    education: [{ role: 'assistant', content: educationResultFromAI ?? '' }]
+    profile: [{ role: 'assistant', content: '' }],
+    workExperience: [{ role: 'assistant', content: '' }],
+    education: [{ role: 'assistant', content: '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
@@ -87,13 +68,13 @@ export default function BuilderPage() {
     // @ts-ignore
     switch (context) {
       case 'workExperience':
-        setWorkResultFromAI(answer || '');
+        // setWorkResultFromAI(answer || '');
         break;
       case 'education':
-        setEducationResultFromAI(answer || '');
+        // setEducationResultFromAI(answer || '');
         break;
       case 'profile':
-        setIntroResultFromAI(answer || '');
+        // setIntroResultFromAI(answer || '');
         break;
       default:
         break;
@@ -131,77 +112,10 @@ export default function BuilderPage() {
               />
             </Panel>
             <Panel header="Work experience" key="2">
-              <ProForm
-                onFinish={async (values) => {
-                  console.log('Received values of form:', values);
-                }}
-              >
-                <Select
-                  placeholder="Customize your experience"
-                  style={{ width: 200, marginBottom: 20 }}
-                  onChange={(value) => handleSelectChange(value, 'workExperience')}
-                  options={selectOptions}
-                />
-                <ProFormList
-                  name="users"
-                  creatorButtonProps={{
-                    position: 'bottom',
-                    creatorButtonText: 'Add new work experience'
-                  }}
-                  initialValue={[{ employer, position, dateTime, remark }]}
-                >
-                  <ProFormGroup key="group">
-                    <ProFormText name="employer" label="Your last employer" width="md" placeholder="EPAM" />
-                    <ProFormText
-                      name="position"
-                      label="Position on the job"
-                      width="md"
-                      placeholder="Senior Software Engineer"
-                    />
-                    <ProFormDateRangePicker name="dateTime" label="When did you work there" />
-                    <ProFormTextArea
-                      name="remark"
-                      label="Key points about this job"
-                      width="lg"
-                      placeholder="In short phrases tell us about what you did there"
-                    />
-                  </ProFormGroup>
-                </ProFormList>
-              </ProForm>
+              <WorkExperienceForm workExperience={cvDataFromRedux.workExperience} />{' '}
             </Panel>
             <Panel header="Education" key="3">
-              <ProForm
-                onFinish={async (values) => {
-                  console.log('Received values of form:', values);
-                }}
-              >
-                <Select
-                  placeholder="Customize your experience"
-                  style={{ width: 200, marginBottom: 20 }}
-                  onChange={(value) => handleSelectChange(value, 'education')}
-                  options={selectOptions}
-                />
-                <ProFormList
-                  name="users"
-                  creatorButtonProps={{
-                    position: 'bottom',
-                    creatorButtonText: 'Add new education'
-                  }}
-                  initialValue={[{ institution, field, studyDateTime, studyRemark }]}
-                >
-                  <ProFormGroup key="group">
-                    <ProFormText name="institution" label="Where did you study?" width="md" placeholder="MIT" />
-                    <ProFormText name="field" label="Field of study?" width="md" placeholder="Computer Science" />
-                    <ProFormDateRangePicker name="studyDateTime" label="Period of education" />
-                    <ProFormTextArea
-                      name="studyRemark"
-                      label="Key points about your education"
-                      width="lg"
-                      placeholder="In short phrases tell us about what you did there"
-                    />
-                  </ProFormGroup>
-                </ProFormList>
-              </ProForm>
+              <EducationForm education={cvDataFromRedux.education} />
             </Panel>
             <Panel header="Skills and hobbies" key="4">
               <SkillsForm skills={cvDataFromRedux.skills} hobbies={cvDataFromRedux.hobbies} />
