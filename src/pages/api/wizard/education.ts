@@ -2,10 +2,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getEducationSectionFromAI } from '../../../api/server/wizard';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { institution, field, studyDateTime, studyRemark } = req.body;
+  const { universityName, speciality, dateTime, remark } = req.body;
 
   try {
-    const result = await getEducationSectionFromAI(institution, field, studyDateTime, studyRemark);
+    const result = await getEducationSectionFromAI(universityName, speciality, dateTime, remark);
 
     res.status(200).json({ result });
   } catch (error) {

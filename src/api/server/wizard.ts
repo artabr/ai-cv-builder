@@ -6,14 +6,14 @@
  */
 import { openai } from '../../services/openai';
 
-export const getIntroSectionFromAI = async (job?: string, country?: string) => {
+export const getIntroSectionFromAI = async (jobTitle?: string, address?: string) => {
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     messages: [
       { role: 'system', content: 'You are a professional career advisor.' },
       {
         role: 'user',
-        content: `I work as a ${job} and live in ${country}. Compose a paragraph where I describe myself to an employer.
+        content: `I work as a ${jobTitle} and live in ${address}. Compose a paragraph where I describe myself to an employer.
         It should have no more than 5 sentences. Don't mention programming languages.`
       }
     ]
@@ -44,10 +44,10 @@ export const getWorkSectionFromAI = async (
 };
 
 export const getEducationSectionFromAI = async (
-  institution?: string,
-  field?: string,
-  studyDateTime?: string[],
-  studyRemark?: string
+  universityName?: string,
+  speciality?: string,
+  dateTime?: string[],
+  remark?: string
 ) => {
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
@@ -55,8 +55,8 @@ export const getEducationSectionFromAI = async (
       { role: 'system', content: 'You are a professional career advisor.' },
       {
         role: 'user',
-        content: `I studied ${field} at ${institution} from ${studyDateTime?.join(' to ')}.
-        The key things there were: ${studyRemark}.
+        content: `I studied ${speciality} at ${universityName} from ${dateTime?.join(' to ')}.
+        The key things there were: ${remark}.
         Compose a paragraph where I tell about my education. It should have no more than 5 sentences.`
       }
     ]
@@ -64,14 +64,14 @@ export const getEducationSectionFromAI = async (
   return completion.data.choices[0].message?.content;
 };
 
-export const getSkillsSectionFromAI = async (skills?: string[], languages?: string[]) => {
+export const getSkillsSectionFromAI = async (skills?: string[], hobbies?: string[]) => {
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     messages: [
       { role: 'system', content: 'You are a professional career advisor.' },
       {
         role: 'user',
-        content: `My main professional skills are ${skills?.join(' to ')}. My hobbies are ${languages?.join(' to ')}.
+        content: `My main professional skills are ${skills?.join(' to ')}. My hobbies are ${hobbies?.join(' to ')}.
         Compose a paragraph where I tell about myself to an employer. It should have no more than 5 sentences.
         Don't start with a greeting. Don't start with "As a/an".`
       }

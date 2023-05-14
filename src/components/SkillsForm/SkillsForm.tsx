@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { ProForm, ProFormSelect } from '@ant-design/pro-components';
 import { Button, Space } from 'antd';
-import { useAppDispatch } from '../../hooks/redux';
-import { setHobbies, setSkills } from '../../features/cv/cvSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { setHobbies, setSkills, setSummary } from '../../features/cv/cvSlice';
+import { SkillsSectionResumeFormData } from '../../models/types';
+import { fetchSectionFromAPI } from '../../api/client/wizard';
 
 type SkillsFormProps = {
   skills?: string[];
@@ -11,7 +13,21 @@ type SkillsFormProps = {
 
 export const SkillsForm: React.FC<SkillsFormProps> = (props) => {
   const [skillsEdited, setSkillsEdited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const cvDataFromRedux = useAppSelector((state) => state.cv);
   const dispatch = useAppDispatch();
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    const values: SkillsSectionResumeFormData = {
+      skills: cvDataFromRedux.skills,
+      hobbies: cvDataFromRedux.hobbies
+    };
+    const skillsSection = await fetchSectionFromAPI(values, 'skills');
+    dispatch(setSummary(skillsSection));
+    setIsLoading(false);
+    return true;
+  };
 
   return (
     <ProForm
@@ -48,7 +64,13 @@ export const SkillsForm: React.FC<SkillsFormProps> = (props) => {
     >
       <ProFormSelect mode="tags" name="skills" label="Your key skills" placeholder="React, TypeScript" />
       <ProFormSelect mode="tags" name="hobbies" label="Your hobbies" placeholder="Music, Sports, Traveling" />
-      <Space wrap>{skillsEdited && <Button type="primary">Regerate skills info</Button>}</Space>
+      <Space wrap>
+        {skillsEdited && (
+          <Button type="primary" onClick={handleClick} loading={isLoading}>
+            Regerate skills info
+          </Button>
+        )}
+      </Space>
     </ProForm>
   );
 };

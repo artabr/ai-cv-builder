@@ -18,10 +18,12 @@ type MainInfoFormProps = {
 
 export const MainInfoForm: React.FC<MainInfoFormProps> = (props) => {
   const [infoEdited, setInfoEdited] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
   const cvDataFromRedux = useAppSelector((state) => state.cv);
 
   const handleIntroStep = async () => {
+    setIsLoading(true);
     const values: IntroSectionResumeFormData = {
       fullName: cvDataFromRedux.personalInfo.fullName,
       jobTitle: cvDataFromRedux.personalInfo.jobTitle,
@@ -29,6 +31,7 @@ export const MainInfoForm: React.FC<MainInfoFormProps> = (props) => {
     };
     const introSection = await fetchSectionFromAPI(values, 'intro');
     dispatch(setDescription(introSection));
+    setIsLoading(false);
     return true;
   };
 
@@ -80,7 +83,7 @@ export const MainInfoForm: React.FC<MainInfoFormProps> = (props) => {
       <ProFormText name="country" label="Where do you live?" width="md" placeholder="Planet Earth" />
       <Space wrap>
         {infoEdited && (
-          <Button type="primary" onClick={handleIntroStep}>
+          <Button type="primary" onClick={handleIntroStep} loading={isLoading}>
             Regenerate description
           </Button>
         )}

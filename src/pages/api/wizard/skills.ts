@@ -2,10 +2,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { getSkillsSectionFromAI } from '../../../api/server/wizard';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { skills, languages } = req.body;
+  const { skills, hobbies } = req.body;
 
   try {
-    const result = await getSkillsSectionFromAI(skills, languages);
+    const result = await getSkillsSectionFromAI(skills, hobbies);
 
     res.status(200).json({ result });
   } catch (error) {
