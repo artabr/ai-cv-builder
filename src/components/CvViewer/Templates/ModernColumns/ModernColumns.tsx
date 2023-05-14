@@ -5,16 +5,15 @@ import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
 import { WorkBlock } from '../../WorkBlock/WorkBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
-import { ResumeViewerType } from '../../CvViewer.types';
+import { BaseCVReviewTemplateProps } from '../../CvViewer.types';
 
-type ModernColumnsProps = {
-  cv: ResumeViewerType;
+type ModernColumnsProps = BaseCVReviewTemplateProps & {
   isBlack?: boolean;
 };
 
-export const ModernColumns = ({ cv, isBlack = false }: ModernColumnsProps) => {
+export const ModernColumns = ({ cv, isBlack = false, targetRef }: ModernColumnsProps) => {
   return (
-    <div className={cx(isBlack && css.black)}>
+    <div className={cx(isBlack && css.black)} ref={targetRef}>
       <div>
         <ModernHeader
           {...cv.personalInfo}

@@ -43,3 +43,8 @@ export type ResumeViewerType = {
     description: string; // richText? or just string
   }[];
 };
+
+export type BaseCVReviewTemplateProps = {
+  cv: ResumeViewerType;
+  targetRef: React.RefObject<HTMLDivElement>;
+};

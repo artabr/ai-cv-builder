@@ -1,3 +1,5 @@
+import { useState, useRef } from 'react';
+
 import {
   ProCard,
   ProFormDateRangePicker,
@@ -8,16 +10,46 @@ import {
   ProFormGroup,
   ProFormSelect
 } from '@ant-design/pro-components';
-import { Collapse } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Collapse, Button, Space } from 'antd';
 import { EditForm } from '../../components/EditForm/EditForm';
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { useCvContext } from '../../context/CvContext';
 import { Paper } from '../../components/Paper/Paper';
+import { convertToPdf } from '../../api/client/convert';
 
 const { Panel } = Collapse;
 
 export default function BuilderPage() {
   const { cvData } = useCvContext();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const targetRef = useRef<HTMLDivElement>(null);
+  const downloadLinkRef = useRef<HTMLLinkElement>(null);
+
+  const handleDownloadPdfClick = () => {
+    if (!isLoading) {
+      const htmlOftemplate = targetRef.current?.innerHTML;
+
+      if (htmlOftemplate) {
+        const converToPdfAsync = async () => {
+          setIsLoading(true);
+
+          const result = await convertToPdf(htmlOftemplate);
+
+          if (result) {
+            const link = downloadLinkRef.current;
+            link?.setAttribute('href', result);
+            link?.click();
+          }
+
+          setIsLoading(false);
+        };
+
+        converToPdfAsync();
+      }
+    }
+  };
 
   return (
     <div>
@@ -98,9 +130,18 @@ export default function BuilderPage() {
         </ProCard>
         <ProCard colSpan={12} layout="center">
           <Paper>
-            <CvViewer cv={cvData} />
+            <CvViewer cv={cvData} targetRef={targetRef} />
           </Paper>
         </ProCard>
+      </ProCard>
+
+      <ProCard colspan={12} gutter={8} style={{ marginBlockStart: 8 }}>
+        <Space align="end">
+          <Button type="primary" icon={<DownloadOutlined />} onClick={handleDownloadPdfClick}>
+            {isLoading ? 'Downloading...' : 'Download PDF'}
+          </Button>
+          <Button style={{ visibility: 'hidden' }} href="" target="_blank" ref={downloadLinkRef} />
+        </Space>
       </ProCard>
     </div>
   );
