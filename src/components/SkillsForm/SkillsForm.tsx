@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import { ProForm, ProFormSelect } from '@ant-design/pro-components';
-import { Button, Space } from 'antd';
+import { Button, Select, Space } from 'antd';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { setHobbies, setSkills, setSummary } from '../../features/cv/cvSlice';
 import { SkillsSectionResumeFormData } from '../../models/types';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
+import { AIResumeTypes } from '../MainInfoForm';
 
 type SkillsFormProps = {
   skills?: string[];
   hobbies?: string[];
+  handleSelectChange: (value: string, context: AIResumeTypes) => Promise<void>;
+  selectOptions: { value: string; label: string }[];
 };
 
 export const SkillsForm: React.FC<SkillsFormProps> = (props) => {
@@ -70,6 +73,12 @@ export const SkillsForm: React.FC<SkillsFormProps> = (props) => {
             Regerate skills info
           </Button>
         )}
+        <Select
+          placeholder="Customize your experience"
+          style={{ width: 200 }}
+          onChange={(value) => props.handleSelectChange(value, 'skills')}
+          options={props.selectOptions}
+        />
       </Space>
     </ProForm>
   );
