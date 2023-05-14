@@ -13,7 +13,9 @@ export const MainLayout = (props: React.PropsWithChildren<unknown>) => {
       <Content style={{ padding: '0 50px' }}>
         <div className={css.siteLayoutContent}>{props.children}</div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>AI CV Builder</Footer>
+      <Footer style={{ textAlign: 'center' }} className={css.footer}>
+        AI CV Builder
+      </Footer>
     </Layout>
   );
 };

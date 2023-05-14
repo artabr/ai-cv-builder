@@ -43,7 +43,7 @@ export const About = ({ isMobile }: AboutProps) => {
           }}
         >
           <span>
-            <img src="https://zos.alipayobjects.com/rmsportal/nLzbeGQLPyBJoli.png" width="100%" alt="img" />
+            <img src="images/ResumeRexLogo.png" width="100%" alt="img" />
           </span>
         </TweenOne>
         <QueueAnim
@@ -57,10 +57,8 @@ export const About = ({ isMobile }: AboutProps) => {
             xs: 24
           }}
         >
-          <h2 className={css.textTitle}>企业资源管理</h2>
-          <div className={css.textContent}>
-            云资源集中编排、弹性伸缩、持续发布和部署，高可用及容灾。云资源集中编排、弹性伸缩、持续发布和部署，高可用及容灾。云资源集中编排、弹性伸缩、持续发布和部署，高可用及容灾
-          </div>
+          <h2 className={css.textTitle}>AI CV Builder</h2>
+          <div className={css.textContent}>CV Creator Tool to create professional-looking resume in a few steps</div>
         </QueueAnim>
       </OverPack>
     </div>

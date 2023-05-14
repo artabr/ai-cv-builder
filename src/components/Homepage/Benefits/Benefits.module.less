@@ -1,5 +1,7 @@
+@content0: content0;
+
 .container {
-  min-height: 764px;
+  min-height: 446px;
   position: relative;
   overflow: hidden;
 
@@ -8,54 +10,55 @@
     overflow: hidden;
     position: relative;
     margin: auto;
-    padding: 128px 24px;
+    padding: 64px 0;
     will-change: transform;
 
     .titleWrapper {
-      margin: 0 auto 64px;
+      margin: 0 auto 48px;
       text-align: center;
 
       .titleName {
         font-size: 32px;
         margin: 0 auto 16px;
       }
+    }
 
-      .titleContent {
-        color: #001529;
-      }
+    .blockList {
+      position: relative;
+      height: 100%;
+      top: 25%;
     }
 
     .blockWrapper {
-      position: relative;
+      &.queue-anim-leaving {
+        position: relative !important;
+      }
+    }
 
-      .block {
-        display: inline-block;
-        padding: 48px 24px;
-        vertical-align: top;
+    .block {
+      padding: 0 4%;
+      text-align: center;
+      min-height: 200px;
+      margin-bottom: 24px;
 
-        .blockIcon {
-          display: inline-block;
-          width: 15%;
-          vertical-align: top;
-        }
+      &Icon {
+        width: 100px;
+        height: 100px;
+        margin: auto;
+      }
 
-        .blockText {
-          width: 85%;
-          display: inline-block;
-          padding-left: 8%;
-        }
-
-        &WithClear {
-          clear: both;
-        }
+      &Title {
+        line-height: 32px;
+        margin: 10px auto;
+        font-size: 24px;
       }
     }
   }
 }
 
-@media screen and (max-width: 639px) {
+@media screen and (max-width: 767px) {
   .container {
-    min-height: 1080px;
+    min-height: 880px;
 
     .content {
       padding: 56px 24px;
@@ -63,21 +66,6 @@
       .titleName {
         font-size: 24px;
         margin: 0 auto 8px;
-      }
-
-      .blockWrapper {
-        margin: 20px auto;
-        height: auto;
-
-        .block {
-          .blockTitle {
-            font-size: 20px;
-          }
-
-          &.queue-anim-leaving {
-            position: relative !important;
-          }
-        }
       }
     }
   }
