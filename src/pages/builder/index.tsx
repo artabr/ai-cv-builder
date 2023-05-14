@@ -30,10 +30,10 @@ export default function BuilderPage() {
   const dispatch = useAppDispatch();
 
   const [messagesHistory, setMessagesHistory] = useState<Record<AIResumeTypes, ConversationHistory> | null>({
-    profile: [{ role: 'assistant', content: '' }],
+    profile: [{ role: 'assistant', content: cvDataFromRedux.personalInfo.description || '' }],
     workExperience: [{ role: 'assistant', content: '' }],
     education: [{ role: 'assistant', content: '' }],
-    skills: [{ role: 'assistant', content: '' }]
+    skills: [{ role: 'assistant', content: cvDataFromRedux?.summary || '' }]
   });
   const [isWriting, setIsWriting] = useState(false);
   const templatesSelectOptions = [
