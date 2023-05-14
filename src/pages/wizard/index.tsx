@@ -10,6 +10,8 @@ import {
 import { message } from 'antd';
 import { useRef } from 'react';
 import { useRouter } from 'next/router';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { v4 as uuidv4 } from 'uuid';
 import { fetchSectionFromAPI } from '../../api/client/wizard';
 import { useAppDispatch } from '../../hooks/redux';
 import {
@@ -47,7 +49,7 @@ export default function WizardPage() {
   const handleWorkStep = async (values: WorkSectionResumeFormData) => {
     const { companyName = '', position = '', remark = '', dateTime } = values;
     const workSection = await fetchSectionFromAPI({ companyName, position, remark, dateTime }, 'work');
-    dispatch(addWorkExperience({ id: '0', companyName, position, remark, dateTime, description: workSection }));
+    dispatch(addWorkExperience({ id: uuidv4(), companyName, position, remark, dateTime, description: workSection }));
     return true;
   };
 
@@ -56,7 +58,7 @@ export default function WizardPage() {
     const educationSection = await fetchSectionFromAPI(values, 'education');
     dispatch(
       addEducation({
-        id: '0',
+        id: uuidv4(),
         universityName: institution,
         speciality: field,
         remark: studyRemark,
