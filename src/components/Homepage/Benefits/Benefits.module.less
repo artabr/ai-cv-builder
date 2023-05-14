@@ -1,0 +1,84 @@
+.container {
+  min-height: 764px;
+  position: relative;
+  overflow: hidden;
+
+  .content {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+    padding: 128px 24px;
+    will-change: transform;
+
+    .titleWrapper {
+      margin: 0 auto 64px;
+      text-align: center;
+
+      .titleName {
+        font-size: 32px;
+        margin: 0 auto 16px;
+      }
+
+      .titleContent {
+        color: #001529;
+      }
+    }
+
+    .blockWrapper {
+      position: relative;
+
+      .block {
+        display: inline-block;
+        padding: 48px 24px;
+        vertical-align: top;
+
+        .blockIcon {
+          display: inline-block;
+          width: 15%;
+          vertical-align: top;
+        }
+
+        .blockText {
+          width: 85%;
+          display: inline-block;
+          padding-left: 8%;
+        }
+
+        &WithClear {
+          clear: both;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .container {
+    min-height: 1080px;
+
+    .content {
+      padding: 56px 24px;
+
+      .titleName {
+        font-size: 24px;
+        margin: 0 auto 8px;
+      }
+
+      .blockWrapper {
+        margin: 20px auto;
+        height: auto;
+
+        .block {
+          .blockTitle {
+            font-size: 20px;
+          }
+
+          &.queue-anim-leaving {
+            position: relative !important;
+          }
+        }
+      }
+    }
+  }
+}

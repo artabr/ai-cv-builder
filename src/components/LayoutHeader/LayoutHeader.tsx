@@ -27,7 +27,7 @@ const menuItems = [
 export const LayoutHeader = () => {
   const router = useRouter();
 
-  const handleMenuClick = ({ key }) => {
+  const handleMenuClick = ({ key }: { key: string }) => {
     router.push(`${key}`);
   };
 

@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import { BaseCVReviewTemplateProps } from '../../CvViewer.types';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
-import { WorkBlock } from '../../WorkBlock/WorkBlock';
+import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
 import css from './Modern.module.css';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
@@ -21,25 +21,31 @@ export const Modern = ({ cv, isBlack = false, targetRef }: CvViewerProps) => {
         <PersonalInfo {...cv.personalInfo} isInline />
         <TextWithHeading heading="Work experience" />
         {(cv.workExperience || []).map((el) => (
-          <WorkBlock key={el.companyName} {...el} />
+          <CVExperienceBlock
+            key={el.companyName}
+            title={el.companyName}
+            subtitle={el.position}
+            startDate={el.dateTime?.[0]}
+            endDate={el.dateTime?.[1]}
+            description={el.description}
+          />
         ))}
         <TextWithHeading heading="Education" />
         {(cv.education || []).map((el) => (
-          <WorkBlock
+          <CVExperienceBlock
             key={el.universityName}
-            companyName={el.universityName}
-            position={el.speciality}
-            isCurrentWork={el.isCurrentEducation}
-            {...el}
+            title={el.universityName}
+            subtitle={el.speciality}
+            startDate={el.dateTime?.[0]}
+            endDate={el.dateTime?.[1]}
+            description={el.description}
           />
         ))}
         <TextWithHeading heading="Skills" />
         <StringArrayViewer items={cv.skills} />
         <TextWithHeading heading="Hobbies" />
         <StringArrayViewer items={cv.hobbies} />
-        {(cv.additionalBlocks || []).map((el) => (
-          <TextWithHeading key={el.title} heading={el.title} text={el.description} />
-        ))}
+        <TextWithHeading heading="Summary" text={cv.summary} />
       </div>
     </div>
   );

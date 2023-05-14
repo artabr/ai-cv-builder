@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-type SectionFromAPIResponse = {
+export type SectionFromAPIResponse = {
   result: string;
 };
 
