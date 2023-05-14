@@ -1,4 +1,4 @@
-import { ResumeViewerType } from '../../CvViewer.types';
+import { BaseCVReviewTemplateProps } from '../../CvViewer.types';
 import css from './Basic.module.css';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
 import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
@@ -6,16 +6,15 @@ import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
 import { Avatar } from '../../Avatar/Avatar';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
 
-type CvViewerProps = {
-  cv: ResumeViewerType;
+type CvViewerProps = BaseCVReviewTemplateProps & {
   isReverse?: boolean;
 };
 
-export const Basic = ({ cv, isReverse = false }: CvViewerProps) => {
+export const Basic = ({ cv, isReverse = false, targetRef }: CvViewerProps) => {
   const { personalInfo, workExperience, education, skills, hobbies } = cv;
 
   return (
-    <div className={isReverse ? css.wrapperReverse : css.wrapper}>
+    <div className={isReverse ? css.wrapperReverse : css.wrapper} ref={targetRef}>
       <div className={css.leftBlock}>
         <TextWithHeading heading="Description" text={personalInfo.description} />
         <TextWithHeading heading="Work experience" />

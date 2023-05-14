@@ -51,3 +51,8 @@ export type ResumeViewerType = {
   hobbies: string[];
   summary?: string;
 };
+
+export type BaseCVReviewTemplateProps = {
+  cv: ResumeViewerType;
+  targetRef: React.RefObject<HTMLDivElement>;
+};

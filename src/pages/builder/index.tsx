@@ -1,17 +1,23 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+
 import { ProCard } from '@ant-design/pro-components';
-import { Collapse, Select } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons';
+import { Collapse, Select, Button, Space } from 'antd';
+
+import { convertToPdf } from '../../api/client/convert';
+import { addContext, ConversationHistory } from '../../api/api';
+
 import { CvViewer } from '../../components/CvViewer/CvViewer';
 import { Paper } from '../../components/Paper';
 import { Template } from '../../components/CvViewer/CvViewer.types';
-import { addContext, ConversationHistory } from '../../api/api';
-import './builder.less';
 import { MainInfoForm, AIResumeTypes } from '../../components/MainInfoForm';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { SkillsForm } from '../../components/SkillsForm';
 import { setTemplate } from '../../features/cv/cvSlice';
 import { WorkExperienceForm } from '../../components/WorkExperienceForm';
 import { EducationForm } from '../../components/EducationForm';
+
+import './builder.less';
 
 const { Panel } = Collapse;
 
@@ -87,6 +93,34 @@ export default function BuilderPage() {
     setIsWriting(false);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+  const targetRef = useRef<HTMLDivElement>(null);
+  const downloadLinkRef = useRef<HTMLLinkElement>(null);
+
+  const handleDownloadPdfClick = () => {
+    if (!isLoading) {
+      const htmlOftemplate = targetRef.current?.innerHTML;
+
+      if (htmlOftemplate) {
+        const converToPdfAsync = async () => {
+          setIsLoading(true);
+
+          const result = await convertToPdf(htmlOftemplate);
+
+          if (result) {
+            const link = downloadLinkRef.current;
+            link?.setAttribute('href', result);
+            link?.click();
+          }
+
+          setIsLoading(false);
+        };
+
+        converToPdfAsync();
+      }
+    }
+  };
+
   return (
     <div>
       <div className="page-header">
@@ -124,9 +158,18 @@ export default function BuilderPage() {
         </ProCard>
         <ProCard colSpan={12} layout="center">
           <Paper>
-            <CvViewer cv={cvDataFromRedux} />
+            <CvViewer cv={cvDataFromRedux} targetRef={targetRef} />
           </Paper>
         </ProCard>
+      </ProCard>
+
+      <ProCard colspan={12} gutter={8} style={{ marginBlockStart: 8 }}>
+        <Space align="end">
+          <Button type="primary" icon={<DownloadOutlined />} onClick={handleDownloadPdfClick}>
+            {isLoading ? 'Downloading...' : 'Download PDF'}
+          </Button>
+          <Button style={{ visibility: 'hidden' }} href="" target="_blank" ref={downloadLinkRef} />
+        </Space>
       </ProCard>
     </div>
   );

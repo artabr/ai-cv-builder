@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { ResumeViewerType } from '../../CvViewer.types';
+import { BaseCVReviewTemplateProps } from '../../CvViewer.types';
 import { TextWithHeading } from '../../TextWithHeading/TextWithHeading';
 import { CVExperienceBlock } from '../../WorkBlock/CVExperienceBlock';
 import { StringArrayViewer } from '../../StringArrayViewer/StringArrayViewer';
@@ -7,14 +7,13 @@ import css from './Modern.module.css';
 import { PersonalInfo } from '../../PersonalInfo/PersonalInfo';
 import { ModernHeader } from './ModernHeader/ModernHeader';
 
-type CvViewerProps = {
-  cv: ResumeViewerType;
+type CvViewerProps = BaseCVReviewTemplateProps & {
   isBlack?: boolean;
 };
 
-export const Modern = ({ cv, isBlack = false }: CvViewerProps) => {
+export const Modern = ({ cv, isBlack = false, targetRef }: CvViewerProps) => {
   return (
-    <div className={cx(isBlack && css.black)}>
+    <div className={cx(isBlack && css.black)} ref={targetRef}>
       <div>
         <ModernHeader {...cv.personalInfo} isBlack={isBlack} />
       </div>
